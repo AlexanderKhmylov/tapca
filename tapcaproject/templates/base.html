@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr" data-navigation-type="default" data-navbar-horizontal-shape="default">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="TAPCA | Изучение слов английского языка с помощью карточек | TAPCA" name="description" />
+    <meta content="Alexander Khmylov and family" name="author" />
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>{% block title %} tapca {% endblock %}</title>
+    {% include 'includes/links_head.html' %}
+    {% block head_links %}{% endblock %}
+  </head>
+
+  <body>
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+      {% include 'includes/nav_left.html' %}
+      {% include 'includes/nav_top.html' %}
+      <div class="content">
+        {% block content %}
+          {% include 'includes/content.html' %}
+        {% endblock %}
+        {% include 'includes/footer.html' %}
+        {% block footer %}{% endblock %}
+      </div>
+    </main>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+    {% include 'includes/links_bottom.html' %}
+    {% block footer_links %}{% endblock %}
+  </body>
+
+</html>
