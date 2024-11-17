@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-3y#oqkj4z4n!#i5pjut^zq(a*hpjn5t_4e_pe8x-4eso13ra(-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -27,7 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # My apps
     'core.apps.CoreConfig',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'cards.apps.CardsConfig'
 ]
 
 MIDDLEWARE = [
