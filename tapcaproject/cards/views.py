@@ -11,6 +11,8 @@ class CardsView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         total_cards = Card.objects.count()
+        if not total_cards:
+            return context
         random_card = randint(0, total_cards-1)
         card = Card.objects.all()[random_card:].first()
         context.update({
