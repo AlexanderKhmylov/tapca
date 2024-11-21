@@ -12,11 +12,25 @@
         <div class="row align-items-center g-5 mb-3 text-center text-sm-start">
           <div class="col-12 col-sm-auto flex-1 text-center">
             <h1 class="fs-1">{{ card.word }}</h1>
-            <p class="text-body-secondary pt-2 fs-6">[{{ card.transcription }}]</p>
+            <h4 class="text-body-secondary fs-6">{{ card.part_of_speech }}, [{{ card.transcription }}]</h4>
+            <p></p>
               {% for tag in card.tag.all %}
-                {{ tag.name }}
+                {% if tag.color == 'GREEN' %}
+                  <span class="badge badge-phoenix badge-phoenix-success">{{ tag.name }}</span>
+                {% endif %}
+                {% if tag.color == 'ORANGE' %}
+                  <span class="badge badge-phoenix badge-phoenix-warning">{{ tag.name }}</span>
+                {% endif %}
+                {% if tag.color == 'GRAY' %}
+                  <span class="badge badge-phoenix badge-phoenix-secondary">{{ tag.name }}</span>
+                {% endif %}
+                {% if tag.color == 'BLUE' %}
+                  <span class="badge badge-phoenix badge-phoenix-info">{{ tag.name }}</span>
+                {% endif %}
+                {% if tag.color == 'RED' %}
+                  <span class="badge badge-phoenix badge-phoenix-danger">{{ tag.name }}</span>
+                {% endif %}
               {% endfor %}
-            <p>{{ card.part_of_speech }}</p>
           </div>
         </div>
         <div class="d-flex flex-between-center border-top border-dashed pt-4">
