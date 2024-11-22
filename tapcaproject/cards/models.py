@@ -21,8 +21,6 @@ class Tag(models.Model):
         verbose_name_plural = 'Теги'
 
 
-
-
 class Card(models.Model):
 
     PART_OF_SPEECH_CHOICES = [
@@ -61,3 +59,49 @@ class Card(models.Model):
         verbose_name_plural = 'Карточки'
 
 
+class Form(models.Model):
+
+    FORM_CHOICES = [
+        ('n_singular', 'Единственное число'),
+        ('n_plural', 'Множественное число'),
+
+        ('v_base_form', 'Инфинитив (базовая форма)'),
+        ('v_past_simple', 'Прошедшее время'),
+        ('v_past_participle', 'Причастие прошедшего времени'),
+        ('v_present_participle', 'Причастие настоящего времени'),
+        ('v_third_person_singular', '3 лицо, ед. число, наст. время'),
+
+        ('a_regular', 'Основная форма'),
+        ('a_comparative', 'Сравнительная степень'),
+        ('a_superlative', 'Превосходная степень'),
+    ]
+
+    card = models.ForeignKey(
+        Card,
+        on_delete=models.CASCADE,
+        related_name='forms',
+        verbose_name='Слово'
+    )
+    type = models.CharField(
+        max_length=32,
+        choices=FORM_CHOICES,
+        verbose_name='Тип'
+    )
+    form = models.CharField(max_length=256, verbose_name='Форма')
+
+
+class Example(models.Model):
+    card = models.ForeignKey(
+        Card,
+        on_delete=models.CASCADE,
+        related_name='examples',
+        verbose_name='Слово'
+    )
+    eng = models.CharField(
+        max_length=256,
+        verbose_name='English'
+    )
+    rus = models.CharField(
+        max_length=256,
+        verbose_name='Russian'
+    )
