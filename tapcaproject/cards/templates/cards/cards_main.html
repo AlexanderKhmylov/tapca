@@ -9,37 +9,58 @@
   <div class="col-12 col-lg-6">
     <div class="card h-100 h-xxl-auto">
       <div class="card-body d-flex flex-column justify-content-between pb-3">
-        <div class="row align-items-center g-5 mb-3 text-center text-sm-start">
-          <div class="col-12 col-sm-auto flex-1 text-center">
-            <h1 class="fs-1">{{ card.word }} <span class="fs-6 text-body-secondary">({{ card.part_of_speech }})</span></h1>
-            {% for tag in card.tag.all %}
-              {% if tag.color == 'GREEN' %}
-                <span class="badge badge-phoenix badge-phoenix-success">{{ tag.name }}</span>
-              {% endif %}
-              {% if tag.color == 'RED' %}
-                <span class="badge badge-phoenix badge-phoenix-danger">{{ tag.name }}</span>
-              {% endif %}
-              {% if tag.color == 'ORANGE' %}
-                <span class="badge badge-phoenix badge-phoenix-warning">{{ tag.name }}</span>
-              {% endif %}
-              {% if tag.color == 'BLUE' %}
-                <span class="badge badge-phoenix badge-phoenix-info">{{ tag.name }}</span>
-              {% endif %}
-              {% if tag.color == 'GRAY' %}
-                <span class="badge badge-phoenix badge-phoenix-secondary">{{ tag.name }}</span>
-              {% endif %}
-            {% endfor %}
+        <div class="row align-items-center g-5 mb-3 text-sm-start">
+          <div class="col-12 col-sm-auto flex-1">
 
-            <p class="text-body-secondary pt-2 fs-6">{% if card.transcription %}[{{ card.transcription }}]{% endif %}</p>
+            <!-- Top part -->
+            <div class="text-center">
+              <h1 class="fs-1">{{ card.word }} <span class="fs-6 text-body-secondary">({{ card.part_of_speech }})</span></h1>
+              {% for tag in card.tag.all %}
+                {% if tag.color == 'GREEN' %}
+                  <span class="badge badge-phoenix badge-phoenix-success">{{ tag.name }}</span>
+                {% endif %}
+                {% if tag.color == 'RED' %}
+                  <span class="badge badge-phoenix badge-phoenix-danger">{{ tag.name }}</span>
+                {% endif %}
+                {% if tag.color == 'ORANGE' %}
+                  <span class="badge badge-phoenix badge-phoenix-warning">{{ tag.name }}</span>
+                {% endif %}
+                {% if tag.color == 'BLUE' %}
+                  <span class="badge badge-phoenix badge-phoenix-info">{{ tag.name }}</span>
+                {% endif %}
+                {% if tag.color == 'GRAY' %}
+                  <span class="badge badge-phoenix badge-phoenix-secondary">{{ tag.name }}</span>
+                {% endif %}
+              {% endfor %}
+              <p class="text-body-secondary pt-2 fs-6">{% if card.transcription %}[{{ card.transcription }}]{% endif %}</p>
+            </div>
 
-            <p></p>
+          <!-- Middle part -->
+            <div class="accordion" id="accordionExample">
+              <div class="accordion-item border-top">
+                <h2 class="accordion-header" id="headingOne">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Перевод
+                  </button>
+                </h2>
+                <div class="accordion-collapse collapse" id="collapseOne" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                  <div class="accordion-body pt-0 fs-7">s
+                    {{ card.translation }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
+
+        <!-- Bottom part -->
         <div class="d-flex flex-between-center border-top border-dashed pt-4">
           <button class="btn btn-success w-100 mx-1 px-2 fs-8" type="button">Знаю</button>
           <button class="btn btn-warning w-100 mx-1 px-2 fs-8" type="button">Повторять</button>
           <button class="btn btn-info w-100 mx-1 px-2 fs-8" type="button">Учить</button>
         </div>
+
       </div>
     </div>
   </div>
