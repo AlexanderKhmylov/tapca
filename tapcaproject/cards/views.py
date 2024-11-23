@@ -14,7 +14,8 @@ class CardsView(TemplateView):
         if not total_cards:
             return context
         random_card = randint(0, total_cards-1)
-        card = Card.objects.all()[random_card:].first()
+        cards = Card.objects.all().prefetch_related('forms')
+        card = cards[random_card:].first()
         context.update({
             'card': card,
         })

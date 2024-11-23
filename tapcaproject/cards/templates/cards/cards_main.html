@@ -73,9 +73,12 @@
                     </div>
                   </div>
                   <!-- ПРИМЕРЫ -->
-                  <h5 class="mt-2 mb-1 text-body-secondary">Примеры <a href="https://dictionary.cambridge.org/dictionary/english-russian/{{ card.word }}" target="_blank">
-                  <img src="https://dictionary.cambridge.org/external/images/favicon.ico?version=6.0.38" alt="Cambridge">
-                </a></h5>
+                  <h5 class="mt-2 mb-1 text-body-secondary">
+                    Примеры
+                    <a href="https://dictionary.cambridge.org/dictionary/english-russian/{{ card.word }}" target="_blank">
+                      <img src="https://dictionary.cambridge.org/external/images/favicon.ico?version=6.0.38" alt="Cambridge">
+                    </a>
+                  </h5>
 {#                  {% if card.examples.all %}#}
                     {% for example in card.examples.all %}
                       <div class="alert alert-outline-info py-2" role="alert">
@@ -96,24 +99,21 @@
                       </div>
                     {% endfor %}
                   {% endif %}
-                  <!-- Bottom part -->
-{#                  <div class="d-flex flex-between-center border-top border-dashed pt-3">#}
-{#                    <button class="btn btn-success w-100 mx-1 px-2 fs-8" type="button">Знаю</button>#}
-{#                    <button class="btn btn-warning w-100 mx-1 px-2 fs-8" type="button">Повторять</button>#}
-{#                    <button class="btn btn-info w-100 mx-1 px-2 fs-8" type="button">Учить</button>#}
-{#                  </div>#}
-                  <div class="d-flex flex-between-center border-top border-dashed pt-3">
-                    <button class="btn btn-success w-100 mx-1 px-2 fs-8" type="button">
-                      <span data-feather="chevron-right"></span>
-                      Следующая карточка
-                    </button>
-{#                    <button class="btn btn-warning w-100 mx-1 px-2 fs-8" type="button">Повторять</button>#}
-{#                    <button class="btn btn-info w-100 mx-1 px-2 fs-8" type="button">Учить</button>#}
-                  </div>
 
                 </div>
               </div>
             </div>
+              <!-- Bottom part -->
+{#              <div class="d-flex flex-between-center border-top border-dashed pt-3">#}
+{#                <button class="btn btn-success w-100 mx-1 px-2 fs-8" type="button">Знаю</button>#}
+{#                <button class="btn btn-warning w-100 mx-1 px-2 fs-8" type="button">Повторять</button>#}
+{#                <button class="btn btn-info w-100 mx-1 px-2 fs-8" type="button">Учить</button>#}
+{#              </div>#}
+              <div class="d-flex flex-between-center border-top border-dashed pt-3">
+                <button class="btn btn-success w-100 mx-1 px-2 fs-8" type="button">
+                  <span data-feather="chevron-right"></span>Следующая карточка
+                </button>
+              </div>
 
           </div>
         </div>
