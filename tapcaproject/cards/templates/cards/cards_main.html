@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
 <div class="row g-5">
   <div class="col-12 col-lg-3">
@@ -13,52 +15,30 @@
           <div class="col-12 col-sm-auto flex-1">
 
             <!-- Top part -->
-          <div class="d-flex justify-content-between align-items-end mb-4">
-            <h2 class="mb-0">{{ card.word }} <span class="fs-6 text-body-secondary">({{ card.part_of_speech }})</span></h2>
-            <div>
-              {% for tag in card.tag.all %}
-                {% if tag.color == 'GREEN' %}
-                  <span class="badge badge-phoenix badge-phoenix-success">{{ tag.name }}</span>
-                {% endif %}
-                {% if tag.color == 'RED' %}
-                  <span class="badge badge-phoenix badge-phoenix-danger">{{ tag.name }}</span>
-                {% endif %}
-                {% if tag.color == 'ORANGE' %}
-                  <span class="badge badge-phoenix badge-phoenix-warning">{{ tag.name }}</span>
-                {% endif %}
-                {% if tag.color == 'BLUE' %}
-                  <span class="badge badge-phoenix badge-phoenix-info">{{ tag.name }}</span>
-                {% endif %}
-                {% if tag.color == 'GRAY' %}
-                  <span class="badge badge-phoenix badge-phoenix-secondary">{{ tag.name }}</span>
-                {% endif %}
-              {% endfor %}
-{#              <button class="btn btn-phoenix-secondary me-2"><svg class="svg-inline--fa fa-download me-sm-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="download" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"></path></svg><!-- <span class="fa-solid fa-download me-sm-2"></span> Font Awesome fontawesome.com --><span class="d-none d-sm-inline-block">Download Invoice</span></button><button class="btn btn-phoenix-secondary"><svg class="svg-inline--fa fa-print me-sm-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="print" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zM432 248a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"></path></svg><!-- <span class="fa-solid fa-print me-sm-2"></span> Font Awesome fontawesome.com --><span class="d-none d-sm-inline-block">Print</span></button>#}
+            <div class="d-flex justify-content-between align-items-end mb-4">
+              <h2 class="mb-0">{{ card.word }} <span class="fs-6 text-body-secondary">({{ card.part_of_speech }})</span></h2>
+              <div>
+                {% for tag in card.tag.all %}
+                  {% if tag.color == 'GREEN' %}
+                    <span class="badge badge-phoenix badge-phoenix-success">{{ tag.name }}</span>
+                  {% endif %}
+                  {% if tag.color == 'RED' %}
+                    <span class="badge badge-phoenix badge-phoenix-danger">{{ tag.name }}</span>
+                  {% endif %}
+                  {% if tag.color == 'ORANGE' %}
+                    <span class="badge badge-phoenix badge-phoenix-warning">{{ tag.name }}</span>
+                  {% endif %}
+                  {% if tag.color == 'BLUE' %}
+                    <span class="badge badge-phoenix badge-phoenix-info">{{ tag.name }}</span>
+                  {% endif %}
+                  {% if tag.color == 'GRAY' %}
+                    <span class="badge badge-phoenix badge-phoenix-secondary">{{ tag.name }}</span>
+                  {% endif %}
+                {% endfor %}
+              </div>
             </div>
-          </div>
-{#            <div class="text-center">#}
-{#              <h1 class="fs-4">{{ card.word }} <span class="fs-6 text-body-secondary">({{ card.part_of_speech }})</span></h1>#}
-{#              {% for tag in card.tag.all %}#}
-{#                {% if tag.color == 'GREEN' %}#}
-{#                  <span class="badge badge-phoenix badge-phoenix-success">{{ tag.name }}</span>#}
-{#                {% endif %}#}
-{#                {% if tag.color == 'RED' %}#}
-{#                  <span class="badge badge-phoenix badge-phoenix-danger">{{ tag.name }}</span>#}
-{#                {% endif %}#}
-{#                {% if tag.color == 'ORANGE' %}#}
-{#                  <span class="badge badge-phoenix badge-phoenix-warning">{{ tag.name }}</span>#}
-{#                {% endif %}#}
-{#                {% if tag.color == 'BLUE' %}#}
-{#                  <span class="badge badge-phoenix badge-phoenix-info">{{ tag.name }}</span>#}
-{#                {% endif %}#}
-{#                {% if tag.color == 'GRAY' %}#}
-{#                  <span class="badge badge-phoenix badge-phoenix-secondary">{{ tag.name }}</span>#}
-{#                {% endif %}#}
-{#              {% endfor %}#}
-{#              <p class="text-body-secondary pt-2 fs-7">{% if card.transcription %}[{{ card.transcription }}]{% endif %}</p>#}
-{#            </div>#}
 
-          <!-- Middle part -->
+            <!-- Middle part -->
             <div class="accordion" id="accordionExample">
               <div class="accordion-item border-top">
                 <h2 class="accordion-header" id="headingOne">
@@ -67,18 +47,20 @@
                   </button>
                 </h2>
                 <div class="accordion-collapse collapse" id="collapseOne" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
-                  <div class="accordion-body pt-0 fs-7">
-                    <div class="alert alert-outline-primary text-center" role="alert">
-                      <strong>{{ card.translation }}</strong>
+
+                  <div class="accordion-body pt-0">
+                    <div class="alert alert-outline-primary text-center d-flex justify-content-between align-items-end" role="alert">
+                      <h3>{{ card.translation }}</h3>
+                      <div>
+                        <a href="https://dictionary.cambridge.org/dictionary/english-russian/{{ card.word }}" target="_blank">
+                          <img src="{% static 'assets/img/cambridge_logo.png'  %}" alt="Cambridge" width="20px">
+                        </a>
+                      </div>
                     </div>
                   </div>
+
                   <!-- ПРИМЕРЫ -->
-                  <h5 class="mt-2 mb-1 text-body-secondary">
-                    Примеры
-                    <a href="https://dictionary.cambridge.org/dictionary/english-russian/{{ card.word }}" target="_blank">
-                      <img src="https://dictionary.cambridge.org/external/images/favicon.ico?version=6.0.38" alt="Cambridge">
-                    </a>
-                  </h5>
+                  <h5 class="mt-2 mb-1 text-body-secondary">Примеры</h5>
 {#                  {% if card.examples.all %}#}
                     {% for example in card.examples.all %}
                       <div class="alert alert-outline-info py-2" role="alert">

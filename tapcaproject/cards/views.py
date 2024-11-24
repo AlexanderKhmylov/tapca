@@ -10,12 +10,7 @@ class CardsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        total_cards = Card.objects.count()
-        if not total_cards:
-            return context
-        random_card = randint(0, total_cards-1)
-        cards = Card.objects.all().prefetch_related('forms')
-        card = cards[random_card:].first()
+        card = Card.objects.all().prefetch_related('forms').order_by('?')[0]
         context.update({
             'card': card,
         })
