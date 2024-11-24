@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Tag(models.Model):
@@ -36,11 +37,12 @@ class Card(models.Model):
 
     word = models.CharField(
         max_length=128,
-        unique=True,
         verbose_name='Слово'
     )
     part_of_speech = models.CharField(
-        max_length=32, choices=PART_OF_SPEECH_CHOICES, verbose_name='Часть речи')
+        max_length=32,
+        choices=PART_OF_SPEECH_CHOICES,
+        verbose_name='Часть речи')
     tag = models.ManyToManyField(Tag, verbose_name='Тег')
     transcription = models.CharField(
         max_length=128,
@@ -49,6 +51,21 @@ class Card(models.Model):
         null=True
     )
     translation = models.TextField(verbose_name='Перевод')
+    translation_secondary = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name='Перевод дополнительный')
+    slug = models.SlugField(
+        unique=True,
+        verbose_name='Слаг'
+    )
+    is_published = models.BooleanField(
+        default=False,
+        verbose_name='Опубликована'
+    )
+
+    # def get_absolute_url(self):
+    #     return reverse('cards:card_detail', kwargs={'slug': self.slug})
 
     def __str__(self):
         return f'{self.word} - {self.part_of_speech}'
@@ -62,18 +79,18 @@ class Card(models.Model):
 class Form(models.Model):
 
     FORM_CHOICES = [
-        ('n_singular', 'Единственное число'),
-        ('n_plural', 'Множественное число'),
+        ('1_n_singular', 'Единственное число'),
+        ('2_n_plural', 'Множественное число'),
 
-        ('v_base_form', 'Инфинитив (базовая форма)'),
-        ('v_past_simple', 'Прошедшее время'),
-        ('v_past_participle', 'Причастие прошедшего времени'),
-        ('v_present_participle', 'Причастие настоящего времени'),
-        ('v_third_person_singular', '3 лицо, ед. число, наст. время'),
+        ('1_v_base_form', 'Инфинитив (базовая форма)'),
+        ('2_v_past_simple', 'Прошедшее время'),
+        ('3_v_past_participle', 'Причастие прошедшего времени'),
+        ('4_v_present_participle', 'Причастие настоящего времени'),
+        ('5_v_third_person_singular', '3 лицо, ед. число, наст. время'),
 
-        ('a_regular', 'Основная форма'),
-        ('a_comparative', 'Сравнительная степень'),
-        ('a_superlative', 'Превосходная степень'),
+        ('1_a_regular', 'Основная форма'),
+        ('2_a_comparative', 'Сравнительная степень'),
+        ('3_a_superlative', 'Превосходная степень'),
     ]
 
     card = models.ForeignKey(
