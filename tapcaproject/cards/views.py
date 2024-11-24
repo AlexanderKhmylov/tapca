@@ -1,5 +1,3 @@
-from random import randint
-
 from django.views.generic import TemplateView, DetailView
 
 from .models import Card
