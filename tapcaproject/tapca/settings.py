@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     # Installed apps
     'django_htmx',
     'debug_toolbar',
+    'crispy_forms',
+    'crispy_bootstrap5',
     # My apps
     'core.apps.CoreConfig',
     'users.apps.UsersConfig',
@@ -141,3 +143,12 @@ STATICFILES_DIRS = [BASE_DIR / 'static', ]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.TapcaUser'
+LOGIN_REDIRECT_URL = 'user:send_otp'
+LOGIN_URL = 'user:send_otp'
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
+DEFAULT_FROM_EMAIL = 'tapca@tapca.ru'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"

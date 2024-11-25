@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 
 class TapcaUser(AbstractUser):
@@ -6,3 +7,16 @@ class TapcaUser(AbstractUser):
         ordering = ('username',)
         verbose_name = 'пользователь'
         verbose_name_plural = 'Пользователи'
+
+
+class OTP(models.Model):
+    user = models.OneToOneField(
+        TapcaUser, on_delete=models.CASCADE, verbose_name='Пользователь',)
+    otp_secret = models.CharField(max_length=16, verbose_name='Секрет',)
+
+    def __str__(self):
+        return f'{self.user} - {self.otp_secret}'
+
+    class Meta:
+        verbose_name = 'OTP'
+        verbose_name_plural = 'OTP'

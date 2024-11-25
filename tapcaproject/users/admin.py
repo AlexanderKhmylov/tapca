@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import TapcaUser, OTP
+
+
+admin.site.register(TapcaUser)
+admin.site.register(OTP)
