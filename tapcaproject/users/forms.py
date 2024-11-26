@@ -1,3 +1,5 @@
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Div, Field, HTML
 from django import forms
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
@@ -17,14 +19,28 @@ class OtpSendForm(forms.Form):
         return email
 
 
+
 class OtpVerifyForm(forms.Form):
     email = forms.EmailField(widget=forms.HiddenInput())
-    otp = forms.CharField(max_length=10, required=True, label='Код')
+    number_1 = forms.IntegerField(required=True, label=False)
+    number_2 = forms.IntegerField(required=True, label=False)
+    number_3 = forms.IntegerField(required=True, label=False)
+    number_4 = forms.IntegerField(required=True, label=False)
+    number_5 = forms.IntegerField(required=True, label=False)
+    number_6 = forms.IntegerField(required=True, label=False)
+
 
     def clean(self):
         cleaned_data = super().clean()
         email = cleaned_data.get('email')
-        otp = cleaned_data.get('otp')
+        number_1 = str(cleaned_data.get('number_1'))
+        number_2 = str(cleaned_data.get('number_2'))
+        number_3 = str(cleaned_data.get('number_3'))
+        number_4 = str(cleaned_data.get('number_4'))
+        number_5 = str(cleaned_data.get('number_5'))
+        number_6 = str(cleaned_data.get('number_6'))
+        otp = ''.join(
+            [number_1, number_2, number_3, number_4, number_5, number_6])
         user = get_object_or_404(User, email=email)
         if not verify_otp_code(user, otp):
             raise forms.ValidationError(

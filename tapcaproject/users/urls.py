@@ -10,7 +10,7 @@ urlpatterns = [
     path('login_verify/', views.verify_otp, name='verify_otp'),
     path(
         'logout/',
-        LogoutView.as_view(next_page=reverse_lazy('users:send_otp')),
+        LogoutView.as_view(next_page=reverse_lazy('cards:cards_main')),
         name='logout'),
 
 ]

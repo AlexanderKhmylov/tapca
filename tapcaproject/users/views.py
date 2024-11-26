@@ -22,20 +22,21 @@ def send_otp(request):
             return redirect(url)
     else:
         form = OtpSendForm()
-    return render(request, 'users/send_otp.html', {'form': form})
+    return render(
+        request, 'users/send_otp.html', {'form': form})
 
 
 def verify_otp(request):
     if request.method == 'POST':
-        print(request.POST)
         form = OtpVerifyForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
             user = get_object_or_404(User, email=email)
             login(request, user)
-            return redirect('core:index')
+            return redirect('cards:cards_main')
     else:
         email = request.GET.get('email')
         form = OtpVerifyForm(initial={'email': email})
 
-    return render(request, 'users/verify_otp.html', {'form': form})
+    return render(
+        request, 'users/verify_otp.html', {'form': form})
