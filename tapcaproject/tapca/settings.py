@@ -158,3 +158,5 @@ DEFAULT_FROM_EMAIL = 'tapca@tapca.ru'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
