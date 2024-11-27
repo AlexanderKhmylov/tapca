@@ -1,20 +1,21 @@
 from django.db import models
-from django.urls import reverse
+
+from tapcaproject.cards.cofig import (
+    TAG_MAX_LENGTH, COLOR_MAX_LENGTH, COLOR_LIST, PART_OF_SPEECH_LIST,
+    WORD_MAX_LENGTH, PART_OF_SPEECH_MAX_LENGTH, TRANSCRIPTION_MAX_LENGTH,
+    FORM_LIST, TYPE_MAX_LENGTH, FORM_MAX_LENGTH, ENG_MAX_LENGTH, RUS_MAX_LENGTH
+)
 
 
 class Tag(models.Model):
-    COLOR_CHOICES = [
-        ('GREEN', 'Зеленый'),
-        ('RED', 'Красный'),
-        ('ORANGE', 'Оранжевый'),
-        ('BLUE', 'Синий'),
-        ('GRAY', 'Серый'),
-    ]
-    name = models.CharField(max_length=128, unique=True, verbose_name='Тег')
-    color = models.CharField(max_length=16, choices=COLOR_CHOICES, verbose_name='Цвет')
+    COLOR_CHOICES = COLOR_LIST
+    name = models.CharField(
+        max_length=TAG_MAX_LENGTH, unique=True, verbose_name='Тег')
+    color = models.CharField(
+        max_length=COLOR_MAX_LENGTH, choices=COLOR_CHOICES, verbose_name='Цвет')
 
     def __str__(self):
-        return f'{self.name} - {self.color}'
+        return f'{self.name} ({self.color})'
 
     class Meta:
         ordering = ('name',)
@@ -24,28 +25,19 @@ class Tag(models.Model):
 
 class Card(models.Model):
 
-    PART_OF_SPEECH_CHOICES = [
-        ('verb', 'глагол'),
-        ('interjection', 'междометие'),
-        ('pronoun', 'местоимение'),
-        ('adverb', 'наречие'),
-        ('preposition', 'предлог'),
-        ('adjective', 'прилагательное'),
-        ('conjunction', 'союз'),
-        ('noun', 'существительное'),
-    ]
+    PART_OF_SPEECH_CHOICES = PART_OF_SPEECH_LIST
 
     word = models.CharField(
-        max_length=128,
+        max_length=WORD_MAX_LENGTH,
         verbose_name='Слово'
     )
     part_of_speech = models.CharField(
-        max_length=32,
+        max_length=PART_OF_SPEECH_MAX_LENGTH,
         choices=PART_OF_SPEECH_CHOICES,
         verbose_name='Часть речи')
     tag = models.ManyToManyField(Tag, verbose_name='Тег')
     transcription = models.CharField(
-        max_length=128,
+        max_length=TRANSCRIPTION_MAX_LENGTH,
         verbose_name='Транскрипция',
         blank=True,
         null=True
@@ -64,11 +56,12 @@ class Card(models.Model):
         verbose_name='Опубликована'
     )
 
+    # TODO:
     # def get_absolute_url(self):
     #     return reverse('cards:card_detail', kwargs={'slug': self.slug})
 
     def __str__(self):
-        return f'{self.word} - {self.part_of_speech}'
+        return f'{self.word} ({self.part_of_speech})'
 
     class Meta:
         ordering = ('word',)
@@ -78,20 +71,7 @@ class Card(models.Model):
 
 class Form(models.Model):
 
-    FORM_CHOICES = [
-        ('1_n_singular', 'Единственное число'),
-        ('2_n_plural', 'Множественное число'),
-
-        ('1_v_base_form', 'Инфинитив (базовая форма)'),
-        ('2_v_past_simple', 'Прошедшее время'),
-        ('3_v_past_participle', 'Причастие прошедшего времени'),
-        ('4_v_present_participle', 'Причастие настоящего времени'),
-        ('5_v_third_person_singular', '3 лицо, ед. число, наст. время'),
-
-        ('1_a_regular', 'Основная форма'),
-        ('2_a_comparative', 'Сравнительная степень'),
-        ('3_a_superlative', 'Превосходная степень'),
-    ]
+    FORM_CHOICES = FORM_LIST
 
     card = models.ForeignKey(
         Card,
@@ -100,11 +80,20 @@ class Form(models.Model):
         verbose_name='Слово'
     )
     type = models.CharField(
-        max_length=32,
+        max_length=TYPE_MAX_LENGTH,
         choices=FORM_CHOICES,
         verbose_name='Тип'
     )
-    form = models.CharField(max_length=256, verbose_name='Форма')
+    form = models.CharField(
+        max_length=FORM_MAX_LENGTH, verbose_name='Форма')
+
+    def __str__(self):
+        return f'{self.card} - {self.type} - {self.form}'
+
+    class Meta:
+        ordering = ('type',)
+        verbose_name = 'форма'
+        verbose_name_plural = 'Формы'
 
 
 class Example(models.Model):
@@ -114,11 +103,14 @@ class Example(models.Model):
         related_name='examples',
         verbose_name='Слово'
     )
-    eng = models.CharField(
-        max_length=256,
+    eng = models.TextField(
+        max_length=ENG_MAX_LENGTH,
         verbose_name='English'
     )
-    rus = models.CharField(
-        max_length=256,
+    rus = models.TextField(
+        max_length=RUS_MAX_LENGTH,
         verbose_name='Russian'
     )
+
+    def __str__(self):
+        return f'{self.card} - {self.eng} - {self.rus}'

@@ -6,6 +6,7 @@ urlpatterns = [
     path('core/', include('core.urls', namespace='core')),
     path('', include('cards.urls', namespace='cards')),
     path('users/', include('users.urls', namespace='users')),
+
     path('admin/', admin.site.urls),
 ]
 

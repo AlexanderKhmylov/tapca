@@ -12,7 +12,11 @@ class CardRandomView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        card = Card.objects.all().filter(is_published=True).prefetch_related('forms').order_by('?')[0]
+        card = (
+            Card.objects.all()
+            .filter(is_published=True)
+            .prefetch_related('forms').order_by('?')[0]
+        )
         context.update({
             'card': card,
         })

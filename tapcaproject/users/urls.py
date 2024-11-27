@@ -12,5 +12,4 @@ urlpatterns = [
         'logout/',
         LogoutView.as_view(next_page=reverse_lazy('cards:cards_main')),
         name='logout'),
-
 ]

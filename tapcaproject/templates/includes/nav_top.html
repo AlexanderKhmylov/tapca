@@ -5,7 +5,7 @@
     <div class="navbar-logo">
 
       <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-      <a class="navbar-brand me-1 me-sm-3" href="../index.html">
+      <a class="navbar-brand me-1 me-sm-3" href="{% url 'cards:cards_main' %}">
         <div class="d-flex align-items-center">
           <div class="d-flex align-items-center"><img src="{% static 'assets/img/icons/logo.png' %}" alt="tapca" width="27" />
             <h5 class="logo-text ms-2 d-none d-sm-block">tapca</h5>
@@ -43,9 +43,9 @@
 
             <div class="overflow-auto scrollbar mt-2" style="height: 7rem;">
               <ul class="nav d-flex flex-column mb-2 pb-1">
-                <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span class="me-2 text-body align-bottom" data-feather="user"></span><span>Профиль</span></a></li>
-                <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"><span class="me-2 text-body align-bottom" data-feather="pie-chart"></span>Статистика</a></li>
-                <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span class="me-2 text-body align-bottom" data-feather="settings"></span>Настройки</a></li>
+{#                <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span class="me-2 text-body align-bottom" data-feather="user"></span><span>Профиль</span></a></li>#}
+{#                <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"><span class="me-2 text-body align-bottom" data-feather="pie-chart"></span>Статистика</a></li>#}
+{#                <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span class="me-2 text-body align-bottom" data-feather="settings"></span>Настройки</a></li>#}
               </ul>
             </div>
             <div class="p-0 border-top border-translucent">
