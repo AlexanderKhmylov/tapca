@@ -1,6 +1,7 @@
+# Tags
 TAG_MAX_LENGTH = 128
 COLOR_MAX_LENGTH = 16
-COLOR_LIST = [
+COLOR_CHOICES = [
         ('GREEN', 'Зеленый'),
         ('RED', 'Красный'),
         ('ORANGE', 'Оранжевый'),
@@ -8,7 +9,8 @@ COLOR_LIST = [
         ('GRAY', 'Серый'),
     ]
 
-PART_OF_SPEECH_LIST = [
+# Cards
+PART_OF_SPEECH_CHOICES = [
         ('verb', 'глагол'),
         ('interjection', 'междометие'),
         ('pronoun', 'местоимение'),
@@ -22,7 +24,8 @@ WORD_MAX_LENGTH = 128
 PART_OF_SPEECH_MAX_LENGTH = 32
 TRANSCRIPTION_MAX_LENGTH = 128
 
-FORM_LIST = [
+# Forms
+FORM_CHOICES = [
         ('1_n_singular', 'Единственное число'),
         ('2_n_plural', 'Множественное число'),
 
@@ -39,5 +42,6 @@ FORM_LIST = [
 TYPE_MAX_LENGTH = 32
 FORM_MAX_LENGTH = 256
 
+# Examples
 ENG_MAX_LENGTH = 256
 RUS_MAX_LENGTH = 256

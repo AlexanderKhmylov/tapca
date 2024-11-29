@@ -11,4 +11,3 @@ urlpatterns = [
     path('403/', error_403, name='error_403'),
 
 ]
-

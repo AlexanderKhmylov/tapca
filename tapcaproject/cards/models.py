@@ -1,14 +1,14 @@
 from django.db import models
 
-from tapcaproject.cards.cofig import (
-    TAG_MAX_LENGTH, COLOR_MAX_LENGTH, COLOR_LIST, PART_OF_SPEECH_LIST,
+from .cofig import (
+    TAG_MAX_LENGTH, COLOR_MAX_LENGTH, COLOR_CHOICES, PART_OF_SPEECH_CHOICES,
     WORD_MAX_LENGTH, PART_OF_SPEECH_MAX_LENGTH, TRANSCRIPTION_MAX_LENGTH,
-    FORM_LIST, TYPE_MAX_LENGTH, FORM_MAX_LENGTH, ENG_MAX_LENGTH, RUS_MAX_LENGTH
+    FORM_CHOICES, TYPE_MAX_LENGTH, FORM_MAX_LENGTH, ENG_MAX_LENGTH,
+    RUS_MAX_LENGTH
 )
 
 
 class Tag(models.Model):
-    COLOR_CHOICES = COLOR_LIST
     name = models.CharField(
         max_length=TAG_MAX_LENGTH, unique=True, verbose_name='Тег')
     color = models.CharField(
@@ -24,9 +24,6 @@ class Tag(models.Model):
 
 
 class Card(models.Model):
-
-    PART_OF_SPEECH_CHOICES = PART_OF_SPEECH_LIST
-
     word = models.CharField(
         max_length=WORD_MAX_LENGTH,
         verbose_name='Слово'
@@ -70,9 +67,6 @@ class Card(models.Model):
 
 
 class Form(models.Model):
-
-    FORM_CHOICES = FORM_LIST
-
     card = models.ForeignKey(
         Card,
         on_delete=models.CASCADE,
