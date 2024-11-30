@@ -19,7 +19,11 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 't')
 IS_PRODUCTION = os.getenv('IS_PRODUCTION', 'False').lower() in ('true', '1', 't')
 
-ALLOWED_HOSTS = ['*']
+if IS_PRODUCTION:
+    ALLOWED_HOSTS = ['tapca.ru', 'www.tapca.ru']
+else:
+    ALLOWED_HOSTS = ['*']
+
 
 INTERNAL_IPS = [
     '127.0.0.1',
@@ -101,7 +105,6 @@ if IS_PRODUCTION:
             'USER': os.getenv('DB_USER'),
             'PASSWORD': os.getenv('DB_PASSWORD'),
             'HOST': os.getenv('DB_HOST'),
-            'PORT': os.getenv('DB_PORT'),
         }
     }
 else:
@@ -161,7 +164,14 @@ LOGIN_REDIRECT_URL = 'cards:cards_main'
 LOGIN_URL = 'user:send_otp'
 
 if IS_PRODUCTION:
-    ...
+    DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = os.getenv('EMAIL_HOST')
+    EMAIL_PORT = os.getenv('EMAIL_PORT')
+    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+    EMAIL_USE_TLS = False
+    EMAIL_USE_SSL = True
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
     EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
