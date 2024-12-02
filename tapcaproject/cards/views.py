@@ -1,8 +1,11 @@
-from django.views.generic import TemplateView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
+from django.views.generic import TemplateView
 
 from .models import Card
 
 
+# CARDS VIEW MODE ============================================================
 class CardsView(TemplateView):
     template_name = 'cards/cards_main.html'
 
@@ -21,3 +24,15 @@ class CardRandomView(TemplateView):
             'card': card,
         })
         return context
+
+
+# CARDS LEARN VIEW ===========================================================
+class CardsLearnView(LoginRequiredMixin, TemplateView):
+    template_name = 'cards/cards_learn.html'
+
+
+def show_card(request):
+    if request.user.is_authenticated:
+        card = ...
+
+    return render(request, 'cards/no_cards.html', {})

@@ -22,6 +22,7 @@ def create_otp(user):
     otp_obj, created = OTP.objects.get_or_create(user=user)
     otp_obj.otp_secret = otp_secret
     otp_obj.save()
+    print(f'{otp_code=}')
     return otp_code
 
 

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="row g-5">
+  <div class="col-12 col-lg-4">
+    <div class="mb-6">
+      {#      Advertisement #}
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-4">
+    <h3 class="text-body-secondary mb-3">Пользователь: {{ user.email }}</h3>
+      <form autocomplete="off" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" class="btn btn-primary" value="Сохранить">
+      </form>
+  </div>
+
+  <div class="col-12 col-lg-4">
+    <div class="mb-6">
+      {#      Advertisement #}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

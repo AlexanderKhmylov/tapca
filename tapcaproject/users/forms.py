@@ -1,9 +1,15 @@
+import time
+import os
+
 from django import forms
+from django.forms import CheckboxSelectMultiple
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
+from dotenv import load_dotenv
 
 from .service import verify_otp_code
 
+load_dotenv()
 User = get_user_model()
 
 
@@ -13,7 +19,11 @@ class OtpSendForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data['email']
         if not User.objects.filter(email=email).exists():
-            raise forms.ValidationError("Email не найден")
+            User.objects.create_user(
+                username=str(int(time.time())),
+                email=email,
+                password=os.getenv('DEFAULT_USER_PASSWORD')
+            )
         return email
 
 
@@ -45,3 +55,19 @@ class OtpVerifyForm(forms.Form):
                 ('Вы ввели неправильный код'
                  ' или истек его срок действия.'
                  ' Запросите код повторно!'))
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+
+        fields = ('first_name', 'last_name')
+
+
+class UserSettingForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('tags',)
+        widgets = {
+            'tags': CheckboxSelectMultiple(),
+        }

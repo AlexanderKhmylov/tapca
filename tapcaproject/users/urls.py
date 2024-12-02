@@ -12,4 +12,12 @@ urlpatterns = [
         'logout/',
         LogoutView.as_view(next_page=reverse_lazy('cards:cards_main')),
         name='logout'),
+
+    path(
+        'user_profile/<int:pk>',
+        views.UserProfileUpdateView.as_view(),
+        name='user_profile'),
+    path('user_setting/<int:pk>',
+         views.UserSettingUpdateView.as_view(),
+         name='user_setting'),
 ]

@@ -1,9 +1,12 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.shortcuts import get_object_or_404, reverse
+from django.views.generic import UpdateView
 
-from .forms import OtpSendForm, OtpVerifyForm
+from .forms import OtpSendForm, OtpVerifyForm, UserProfileForm, UserSettingForm
+from .mixins import OnlyMyDataMixin
 from .service import create_otp, send_otp_email
 
 User = get_user_model()
@@ -39,3 +42,23 @@ def verify_otp(request):
 
     return render(
         request, 'users/verify_otp.html', {'form': form})
+
+
+class UserProfileUpdateView(LoginRequiredMixin, OnlyMyDataMixin, UpdateView):
+    model = User
+    form_class = UserProfileForm
+    context_object_name = 'user'
+    template_name = 'users/user_profile_setting.html'
+
+    def get_success_url(self):
+        return reverse('cards:cards_main')
+
+
+class UserSettingUpdateView(LoginRequiredMixin, OnlyMyDataMixin, UpdateView):
+    model = User
+    form_class = UserSettingForm
+    context_object_name = 'user'
+    template_name = 'users/user_profile_setting.html'
+
+    def get_success_url(self):
+        return reverse('cards:cards_main')
