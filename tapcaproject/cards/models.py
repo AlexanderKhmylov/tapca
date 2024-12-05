@@ -15,7 +15,7 @@ class Tag(models.Model):
         max_length=COLOR_MAX_LENGTH, choices=COLOR_CHOICES, verbose_name='Цвет')
 
     def __str__(self):
-        return f'{self.name} ({self.color})'
+        return f'{self.name}'
 
     class Meta:
         ordering = ('name',)

@@ -41,11 +41,9 @@
               </div>
             {% endif %}
 
-            <div class="overflow-auto scrollbar mt-2" style="height: 7rem;">
+            <div class="overflow-auto scrollbar mt-2" style="height: 3rem;">
               <ul class="nav d-flex flex-column mb-2 pb-1">
-                <li class="nav-item"><a class="nav-link px-3 d-block" href="{% url 'users:user_profile' user.pk %}"> <span class="me-2 text-body align-bottom" data-feather="user"></span><span>Профиль</span></a></li>
-                <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"><span class="me-2 text-body align-bottom" data-feather="pie-chart"></span>Статистика</a></li>
-                <li class="nav-item"><a class="nav-link px-3 d-block" href="{% url 'users:user_setting' user.pk %}"> <span class="me-2 text-body align-bottom" data-feather="settings"></span>Настройки</a></li>
+                <li class="nav-item"><a class="nav-link px-3 d-block" href="{% url 'users:statistics' user.pk %}"> <span class="me-2 text-body align-bottom" data-feather="settings"></span>Настройки</a></li>
               </ul>
             </div>
             <div class="p-0 border-top border-translucent">

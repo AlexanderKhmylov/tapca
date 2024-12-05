@@ -71,3 +71,12 @@ class UserSettingForm(forms.ModelForm):
         widgets = {
             'tags': CheckboxSelectMultiple(),
         }
+
+
+class UserSetForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'tags')
+        widgets = {
+            'tags': CheckboxSelectMultiple(),
+        }

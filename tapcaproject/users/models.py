@@ -39,26 +39,26 @@ class OTP(models.Model):
         verbose_name_plural = 'OTPs'
 
 
-class Progress(models.Model):
+class UserCard(models.Model):
     user = models.ForeignKey(
         TapcaUser,
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
-        related_name='progress',
+        related_name='cards',
     )
     card = models.ForeignKey(
         Card,
         on_delete=models.CASCADE,
         verbose_name='Карточка',
-        related_name='progress',
+        related_name='cards',
     )
-    progress = models.PositiveSmallIntegerField()
+    frequency = models.PositiveSmallIntegerField()
 
     def __str__(self):
-        return f'{self.user} - {self.card} - {self.progress}'
+        return f'{self.user} - {self.card} - {self.frequency}'
 
     class Meta:
         unique_together = ('user', 'card')
-        ordering = ('user', 'progress')
-        verbose_name = 'прогресс'
-        verbose_name_plural = 'Прогресс'
+        ordering = ('user', '-frequency')
+        verbose_name = 'слово пользователя'
+        verbose_name_plural = 'Слова пользователя'

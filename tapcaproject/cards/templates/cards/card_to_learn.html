@@ -1,0 +1,149 @@
+{% load static %}
+
+<div class="col-12 col-lg-3">
+  <div class="mb-6">
+    {#      Advertisement #}
+  </div>
+</div>
+
+<div class="col-12 col-lg-6">
+  <div class="card h-100 h-xxl-auto">
+    <div class="card-body d-flex flex-column justify-content-between pb-3">
+      <div class="row align-items-center g-5 mb-3 text-sm-start">
+        <div class="col-12 col-sm-auto flex-1">
+
+          <!-- Top part -->
+          <div class="d-flex justify-content-between align-items-end mb-4">
+            <h2 class="mb-0">{{ card.word }} <span class="fs-6 text-body-secondary">({{ card.part_of_speech }})</span></h2>
+            <div>
+              {% for tag in card.tag.all %}
+                {% if tag.color == 'GREEN' %}
+                  <span class="badge badge-phoenix badge-phoenix-success fs-8">{{ tag.name }}</span>
+                {% endif %}
+                {% if tag.color == 'RED' %}
+                  <span class="badge badge-phoenix badge-phoenix-danger fs-8">{{ tag.name }}</span>
+                {% endif %}
+                {% if tag.color == 'ORANGE' %}
+                  <span class="badge badge-phoenix badge-phoenix-warning fs-8">{{ tag.name }}</span>
+                {% endif %}
+                {% if tag.color == 'BLUE' %}
+                  <span class="badge badge-phoenix badge-phoenix-info fs-8">{{ tag.name }}</span>
+                {% endif %}
+                {% if tag.color == 'GRAY' %}
+                  <span class="badge badge-phoenix badge-phoenix-secondary fs-8">{{ tag.name }}</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Middle part -->
+          <div class="accordion" id="accordionExample">
+            <div class="accordion-item border-top">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed fs-7" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                  Перевод
+                </button>
+              </h2>
+              <div class="accordion-collapse collapse" id="collapseOne" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                <div class="accordion-body pt-0">
+
+                  <!-- ПЕРЕВОД -->
+                  <div class="alert alert-outline-primary text-center justify-content-between align-items-end pb-2" role="alert">
+                    <h3 class="text-primary">{{ card.translation }}</h3>
+                    <h3 class="text-body-secondary pt-2">{{ card.translation_secondary }}</h3>
+                    <div class="d-flex flex-row-reverse">
+                      <a href="https://dictionary.cambridge.org/dictionary/english-russian/{{ card.word }}" target="_blank">
+                        <img src="{% static 'assets/img/cambridge_logo.png'  %}" alt="Cambridge" width="20px">
+                      </a>
+                    </div>
+                  </div>
+
+                  <!-- ПРИМЕРЫ -->
+                  {% if card.examples.all %}
+                      <h4 class="mt-2 mb-1 text-body-secondary">Примеры</h4>
+                    {% for example in card.examples.all %}
+                      <div class="alert alert-outline-primary py-2" role="alert">
+                        <p class="mb-1 text-body fs-7"><strong>{{ example.eng }}</strong></p>
+                        <p class="mb-1 fs-7">{{ example.rus }}</p>
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+
+                  <!-- ФОРМЫ -->
+                  {% if card.forms.all %}
+                    <h4 class="mt-4 mb-1 text-body-secondary">Формы</h4>
+                    {% for form in card.forms.all|dictsort:"type" %}
+                      <div class="alert alert-outline-success py-2" role="alert">
+                        <p class="mb-1 text-body">{{ form.get_type_display }}</p>
+                        <p class="mb-1 fs-7"><strong>{{ form.form }}</strong></p>
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+
+                  <!-- КНОПКИ -->
+                  <div class="d-flex flex-between-center border-top border-dashed pt-3">
+
+                    <button
+                        class="btn btn-success w-100 mx-1 px-2 fs-8"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne"
+                        aria-expanded="false"
+                        aria-controls="collapseOne"
+                        hx-get="{% url 'cards:save_card_to_repeat' card.pk %}?frequency=10"
+                        hx-target="#card_with_adv"
+                        hx-swap="innerHTML"
+                    >
+                      Знаю
+                    </button>
+
+                    <button
+                        class="btn btn-warning w-100 mx-1 px-2 fs-8"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne"
+                        aria-expanded="false"
+                        aria-controls="collapseOne"
+                        hx-get="{% url 'cards:save_card_to_repeat' card.pk %}?frequency=50"
+                        hx-target="#card_with_adv"
+                        hx-swap="innerHTML"
+                    >
+                      Повторять
+                    </button>
+
+                    <button
+                        class="btn btn-info w-100 mx-1 px-2 fs-8"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne"
+                        aria-expanded="false"
+                        aria-controls="collapseOne"
+                        hx-get="{% url 'cards:save_card_to_repeat' card.pk %}?frequency=100"
+                        hx-target="#card_with_adv"
+                        hx-swap="innerHTML"
+                    >
+                      Учить
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-12 col-lg-3">
+  <div class="mb-6">
+    {#      Advertisement #}
+  </div>
+</div>
+
+            <!-- Bottom part -->
+{#              <div class="d-flex flex-between-center border-top border-dashed pt-3">#}
+{#                <button class="btn btn-success w-100 mx-1 px-2 fs-8" type="button">Знаю</button>#}
+{#                <button class="btn btn-warning w-100 mx-1 px-2 fs-8" type="button">Повторять</button>#}
+{#                <button class="btn btn-info w-100 mx-1 px-2 fs-8" type="button">Учить</button>#}
+{#              </div>#}

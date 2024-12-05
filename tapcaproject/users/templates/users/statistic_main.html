@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+  <div class="pb-9">
+    <div class="row g-4 g-xl-6">
+      <div class="col-xl-4 col-xxl-3">
+        <div class="sticky-leads-sidebar">
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="row align-items-center g-3">
+                <div class="col-12 col-sm-auto flex-1">
+                  <div class="d-md-flex d-xl-block align-items-center justify-content-between">
+                    <div class="d-flex align-items-center mb-3 mb-md-0 mb-xl-3">
+                      <span class="text-primary-dark m-2" data-feather="user" style="height: 70px; width: 70px;"></span>
+                      <div class="mx-2 pt-4">
+                        <h5>{{ user.first_name }} {{ user.last_name }}</h5>
+                        <div class="mt-2">
+                          <p class="text-body-secondary">
+                            {{ user.email }}
+                          </p>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div>
+                      {% for tag in user.tags.all %}
+                        {% if tag.color == 'GREEN' %}
+                          <span class="badge badge-phoenix badge-phoenix-success fs-8">{{ tag.name }}</span>
+                        {% endif %}
+                        {% if tag.color == 'RED' %}
+                          <span class="badge badge-phoenix badge-phoenix-danger fs-8">{{ tag.name }}</span>
+                        {% endif %}
+                        {% if tag.color == 'ORANGE' %}
+                          <span class="badge badge-phoenix badge-phoenix-warning fs-8">{{ tag.name }}</span>
+                        {% endif %}
+                        {% if tag.color == 'BLUE' %}
+                          <span class="badge badge-phoenix badge-phoenix-info fs-8">{{ tag.name }}</span>
+                        {% endif %}
+                        {% if tag.color == 'GRAY' %}
+                          <span class="badge badge-phoenix badge-phoenix-secondary fs-8">{{ tag.name }}</span>
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h4 class="mb-5">Настройки:</h4>
+              <form autocomplete="off" method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" class="btn btn-primary" value="Сохранить">
+              </form>
+              <div class="row g-3">
+                <div class="col-12">
+                  <div class="mb-4">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-8 col-xxl-9">
+        <div class="card mb-5">
+          <div class="card-body">
+            <div class="row g-4 g-xl-1 g-xxl-3 justify-content-between">
+              <div class="col-sm-auto">
+                <div class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center">
+                  <div class="d-flex bg-success-subtle rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0" style="width:32px; height:32px"><span class="text-success-dark" data-feather="book-open" style="width:24px; height:24px"></span></div>
+                  <div>
+                    <p class="fw-bold mb-1">Новые слова</p>
+                    <h4 class="fw-bolder text-nowrap">123</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-auto">
+                <div class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center border-start-sm ps-sm-5 border-translucent">
+                  <div class="d-flex bg-info-subtle rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0" style="width:32px; height:32px"><span class="text-info-dark" data-feather="repeat" style="width:24px; height:24px"></span></div>
+                  <div>
+                    <p class="fw-bold mb-1">Слова на повторении</p>
+                    <h4 class="fw-bolder text-nowrap">32</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-auto">
+                <div class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center border-start-sm ps-sm-5 border-translucent">
+                  <div class="d-flex bg-primary-subtle rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0" style="width:32px; height:32px"><span class="text-primary-dark" data-feather="check-circle" style="width:24px; height:24px"></span></div>
+                  <div>
+                    <p class="fw-bold mb-1">Выучено слов</p>
+                    <h4 class="fw-bolder text-nowrap">10</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul class="nav nav-underline fs-9 deal-details scrollbar flex-nowrap w-100 pb-1 mb-6" id="myTab" role="tablist" style="overflow-y: hidden;">
+          <li class="nav-item text-nowrap me-2" role="presentation">
+            <a
+              class="nav-link active"
+              id="activity-tab"
+              data-bs-toggle="tab"
+              href="#tab-activity"
+              role="tab"
+              aria-controls="tab-activity"
+              aria-selected="false"
+              tabindex="-1"
+              hx-get="{% url 'users:new_words' %}"
+              hx-trigger="load, click"
+              hx-target="#new_words_area"
+              hx-swap="innerHTML"
+            >
+              <span class="fa-solid fas fa-book-open me-2 tab-icon-color"></span>Новые слова
+            </a>
+          </li>
+          <li class="nav-item text-nowrap me-2" role="presentation">
+            <a
+              class="nav-link"
+              id="notes-tab"
+              data-bs-toggle="tab"
+              href="#tab-notes"
+              role="tab"
+              aria-controls="tab-notes"
+              aria-selected="false"
+              tabindex="-1"
+              hx-get="{% url 'users:repeated_words' %}"
+              hx-trigger="load, click"
+              hx-target="#repeated_words_area"
+              hx-swap="innerHTML"
+            >
+              <span class="fa-solid fas fa-reply-all me-2 tab-icon-color"></span>Слова на повторении
+            </a>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade active show" id="tab-activity" role="tabpanel" aria-labelledby="activity-tab">
+            <h2 class="mb-4">Новые слова</h2>
+            <div id="new_words_area">
+
+            </div>
+          </div>
+          <div class="tab-pane fade" id="tab-notes" role="tabpanel" aria-labelledby="notes-tab">
+            <h2 class="mb-4">Слова на повторении</h2>
+            <div id="repeated_words_area">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

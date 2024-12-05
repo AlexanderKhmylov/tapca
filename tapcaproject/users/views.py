@@ -3,11 +3,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.shortcuts import get_object_or_404, reverse
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, TemplateView, ListView, FormView
 
-from .forms import OtpSendForm, OtpVerifyForm, UserProfileForm, UserSettingForm
+from .forms import OtpSendForm, OtpVerifyForm, UserProfileForm, UserSettingForm, UserSetForm
 from .mixins import OnlyMyDataMixin
+from .models import UserCard
 from .service import create_otp, send_otp_email
+from cards.models import Card
+from cards.service import get_user_cards, get_user_repeated_cards
 
 User = get_user_model()
 
@@ -62,3 +65,41 @@ class UserSettingUpdateView(LoginRequiredMixin, OnlyMyDataMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('cards:cards_main')
+
+
+class UserStatisticView(LoginRequiredMixin, UpdateView):
+    model = User
+    template_name = 'users/statistic_main.html'
+    form_class = UserSetForm
+    context_object_name = 'user'
+
+    def get_success_url(self):
+        return reverse('users:statistics', kwargs={'pk': self.request.user.pk})
+
+
+class MyNewWordsView(LoginRequiredMixin, ListView):
+    model = Card
+    template_name = 'users/new_words.html'
+    context_object_name = 'cards'
+
+    def get_queryset(self):
+        cards = get_user_cards(self.request.user)
+        return cards
+
+
+def my_repeated_word(request):
+    cards = get_user_repeated_cards(request.user)
+    return render(request, 'users/repeated_words.html', {'cards': cards})
+
+
+def reset_progress(request, user_card_id):
+    user_card = get_object_or_404(UserCard, pk=user_card_id)
+    user_card.frequency = 100
+    user_card.save()
+    return my_repeated_word(request)
+
+
+def delete_user_card(request, user_card_id):
+    user_card = get_object_or_404(UserCard, pk=user_card_id)
+    user_card.delete()
+    return my_repeated_word(request)
