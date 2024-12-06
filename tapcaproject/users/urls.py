@@ -25,4 +25,5 @@ urlpatterns = [
     path('repeated_words/', views.my_repeated_word, name='repeated_words'),
     path('reset_progress/<int:user_card_id>', views.reset_progress, name='reset_progress'),
     path('delete_user_card/<int:user_card_id>', views.delete_user_card, name='delete_user_card'),
+    path('words_statistics/', views.get_statistic, name='words_statistics'),
 ]

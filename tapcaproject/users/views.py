@@ -96,10 +96,21 @@ def reset_progress(request, user_card_id):
     user_card = get_object_or_404(UserCard, pk=user_card_id)
     user_card.frequency = 100
     user_card.save()
-    return my_repeated_word(request)
+    response = my_repeated_word(request)
+    response.headers['HX-Trigger'] = 'update_statistics'
+    return response
 
 
 def delete_user_card(request, user_card_id):
     user_card = get_object_or_404(UserCard, pk=user_card_id)
     user_card.delete()
-    return my_repeated_word(request)
+    response = my_repeated_word(request)
+    response.headers['HX-Trigger'] = 'update_statistics'
+    return response
+
+
+def get_statistic(request):
+    new_words = get_user_cards(request.user).count()
+    repeated_words = get_user_repeated_cards(request.user).count()
+    learned_words = get_user_repeated_cards(request.user).filter(frequency=10).count()
+    return render(request, 'users/statistics_words.html', context={'new_words': new_words, 'repeated_words': repeated_words, 'learned_words': learned_words})

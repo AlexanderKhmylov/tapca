@@ -68,39 +68,18 @@
         </div>
       </div>
       <div class="col-xl-8 col-xxl-9">
-        <div class="card mb-5">
-          <div class="card-body">
-            <div class="row g-4 g-xl-1 g-xxl-3 justify-content-between">
-              <div class="col-sm-auto">
-                <div class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center">
-                  <div class="d-flex bg-success-subtle rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0" style="width:32px; height:32px"><span class="text-success-dark" data-feather="book-open" style="width:24px; height:24px"></span></div>
-                  <div>
-                    <p class="fw-bold mb-1">Новые слова</p>
-                    <h4 class="fw-bolder text-nowrap">123</h4>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-auto">
-                <div class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center border-start-sm ps-sm-5 border-translucent">
-                  <div class="d-flex bg-info-subtle rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0" style="width:32px; height:32px"><span class="text-info-dark" data-feather="repeat" style="width:24px; height:24px"></span></div>
-                  <div>
-                    <p class="fw-bold mb-1">Слова на повторении</p>
-                    <h4 class="fw-bolder text-nowrap">32</h4>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-auto">
-                <div class="d-sm-block d-inline-flex d-md-flex flex-xl-column flex-xxl-row align-items-center align-items-xl-start align-items-xxl-center border-start-sm ps-sm-5 border-translucent">
-                  <div class="d-flex bg-primary-subtle rounded flex-center me-3 mb-sm-3 mb-md-0 mb-xl-3 mb-xxl-0" style="width:32px; height:32px"><span class="text-primary-dark" data-feather="check-circle" style="width:24px; height:24px"></span></div>
-                  <div>
-                    <p class="fw-bold mb-1">Выучено слов</p>
-                    <h4 class="fw-bolder text-nowrap">10</h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
+      <div
+        id="statistic_area"
+        hx-get="{% url 'users:words_statistics' %}"
+        hx-target="#statistic_area"
+        hx-swap="innerHTML"
+{#        hx-trigger="load update_statistics from:body"#}
+        hx-trigger="load, update_statistics from:body"
+      >
+
+      </div>
+
         <ul class="nav nav-underline fs-9 deal-details scrollbar flex-nowrap w-100 pb-1 mb-6" id="myTab" role="tablist" style="overflow-y: hidden;">
           <li class="nav-item text-nowrap me-2" role="presentation">
             <a

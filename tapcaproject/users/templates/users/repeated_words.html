@@ -18,9 +18,10 @@
           <thead>
             <tr>
               <th class="white-space-nowrap align-middle ps-0">КАРТОЧКА</th>
-              <th class="align-middle text-end">КАТЕГОРИЯ</th>
               <th class="align-middle ps-3">ПЕРЕВОД</th>
-              <th class="align-middle ps-3"">ПРОГРЕСС</th>
+              <th class="align-middle text-end">КАТЕГОРИЯ</th>
+
+              <th class="align-middle ps-3"">ЧАСТОТА</th>
               <th class="align-middle text-end"></th>
             </tr>
           </thead>
@@ -31,6 +32,9 @@
                   <a class="fw-bold fs-8" href="#">
                     {{ user_card.card.word }} <span class="mb-0 fs-9 text-body">({{ user_card.card.part_of_speech }})</span>
                   </a>
+                </td>
+              <td class="align-middle white-space-nowrap deadline ps-3 py-4">
+                  <p class="mb-0 fs-9 text-body">{{ user_card.card.translation }}</p>
                 </td>
                 <td class="align-middle white-space-nowrap text-end statuses">
                   {% for tag in user_card.card.tag.all %}
@@ -51,9 +55,7 @@
                     {% endif %}
                   {% endfor %}
                 </td>
-                <td class="align-middle white-space-nowrap deadline ps-3 py-4">
-                  <p class="mb-0 fs-9 text-body">{{ user_card.card.translation }}</p>
-                </td>
+
                 <td class="align-middle white-space-nowrap ps-3 projectprogress">
                   <p class="text-body-secondary fs-10 mb-0">{{ user_card.frequency }} / 100</p>
                   <div class="progress" style="height:3px;">
