@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 
 from .models import Card
 from .service import get_user_cards
@@ -53,3 +53,9 @@ def save_card_to_repeat(request, card_id):
         UserCard.objects.create(
             card=card, user=request.user, frequency=frequency)
     return show_card_to_learn(request)
+
+
+class CardDetailView(DetailView):
+    model = Card
+    context_object_name = 'card'
+    template_name = 'cards/one_card.html'

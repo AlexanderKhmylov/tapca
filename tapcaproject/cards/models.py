@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from .cofig import (
     TAG_MAX_LENGTH, COLOR_MAX_LENGTH, COLOR_CHOICES, PART_OF_SPEECH_CHOICES,
@@ -53,9 +54,8 @@ class Card(models.Model):
         verbose_name='Опубликована'
     )
 
-    # TODO:
-    # def get_absolute_url(self):
-    #     return reverse('cards:card_detail', kwargs={'slug': self.slug})
+    def get_absolute_url(self):
+        return reverse('cards:card_detail', kwargs={'slug': self.slug})
 
     def __str__(self):
         return f'{self.word} ({self.part_of_speech})'

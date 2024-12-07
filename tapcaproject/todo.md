@@ -1,7 +1,10 @@
 # TODO
-1. Add detail card view with slug
-2. Add form to add cards
-3. Add table with all words and filters
-+++++ 4. .env file
-5. Upload to production
+- ADD REPEAT FUNC
+- ADD CAPCHA
+- ADD SEARCH
+
+1. Add About 
+2. Add Feedback
+3. Add Cookie etc
+4. Add donation form
 

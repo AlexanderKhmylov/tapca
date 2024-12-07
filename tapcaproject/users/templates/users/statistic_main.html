@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load widget_tweaks %}
 
 
 {% block content %}
@@ -74,7 +75,6 @@
         hx-get="{% url 'users:words_statistics' %}"
         hx-target="#statistic_area"
         hx-swap="innerHTML"
-{#        hx-trigger="load update_statistics from:body"#}
         hx-trigger="load, update_statistics from:body"
       >
 
@@ -92,6 +92,7 @@
               aria-selected="false"
               tabindex="-1"
               hx-get="{% url 'users:new_words' %}"
+              hx-include="#new_words_filter"
               hx-trigger="load, click"
               hx-target="#new_words_area"
               hx-swap="innerHTML"
@@ -110,6 +111,7 @@
               aria-selected="false"
               tabindex="-1"
               hx-get="{% url 'users:repeated_words' %}"
+              hx-include="#repeated_words_filter"
               hx-trigger="load, click"
               hx-target="#repeated_words_area"
               hx-swap="innerHTML"
@@ -121,15 +123,89 @@
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade active show" id="tab-activity" role="tabpanel" aria-labelledby="activity-tab">
             <h2 class="mb-4">Новые слова</h2>
-            <div id="new_words_area">
+              <div class="mb-9">
 
-            </div>
+                <div class="row g-3 justify-content-between align-items-end mb-4">
+                  <div class="col-12 col-sm-auto">
+                    <div class="d-flex align-items-center">
+                      <div class="search-box me-3">
+                        <form id="new_words_filter" class="position-relative" autocomplete="off"
+                          hx-get="{% url 'users:new_words' %}"
+                          hx-target = "#new_words_area"
+                          hx-trigger = "input changed delay:300ms from:#id_word"
+                          hx-swap = "innerHTML"
+                        >
+                          {% render_field new_words_filter.form.word class="form-control search-input search" type="search" placeholder="Поиск" aria-label="Search" %}
+                          <span class="fas fa-search search-box-icon"></span>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="table-responsive scrollbar">
+                  <table class="table fs-9 mb-0 border-top border-translucent">
+                    <thead>
+                      <tr>
+                        <th class="white-space-nowrap align-middle ps-0">КАРТОЧКА</th>
+                        <th class="align-middle ps-3">ПЕРЕВОД</th>
+
+                      </tr>
+                    </thead>
+                    <tbody class="list" id="new_words_area">
+
+                    </tbody>
+                  </table>
+                </div>
+
+                <div id="spinner" class="spinner-border htmx-indicator" role="status"><span class="visually-hidden">Загрузка...</span></div>
+
+
+
+              </div>
           </div>
           <div class="tab-pane fade" id="tab-notes" role="tabpanel" aria-labelledby="notes-tab">
             <h2 class="mb-4">Слова на повторении</h2>
-            <div id="repeated_words_area">
 
+            <div class="mb-9">
+              <div id="projectSummary" data-list='{"valueNames":["projectName","assignees","start","deadline","task","projectprogress","status","action"],"page":6,"pagination":true}'>
+                <div class="row g-3 justify-content-between align-items-end mb-4">
+                  <div class="col-12 col-sm-auto">
+                    <div class="d-flex align-items-center">
+                      <div class="search-box me-3">
+                        <form id="repeated_words_filter" class="position-relative" autocomplete="off"
+                          hx-get="{% url 'users:repeated_words' %}"
+                          hx-target = "#repeated_words_area"
+                          hx-trigger = "input changed delay:300ms from:#id_card"
+                          hx-swap = "innerHTML"
+                        >
+                          {% render_field repeated_words_filter.form.card class="form-control search-input search" type="search" placeholder="Поиск" aria-label="Search" %}
+                          <span class="fas fa-search search-box-icon"></span>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-responsive scrollbar">
+                  <table class="table fs-9 mb-0 border-top border-translucent">
+                    <thead>
+                      <tr>
+                        <th class="white-space-nowrap align-middle ps-0">КАРТОЧКА</th>
+                        <th class="align-middle ps-3">ПЕРЕВОД</th>
+                        <th class="align-middle ps-3"">ЧАСТОТА</th>
+                        <th class="align-middle text-end"></th>
+                      </tr>
+                    </thead>
+                    <tbody class="list" id="repeated_words_area">
+                     </tbody>
+                  </table>
+                </div>
+                <div id="spinner_rep" class="spinner-border htmx-indicator" role="status"><span class="visually-hidden">Загрузка...</span></div>
+
+              </div>
             </div>
+
+
           </div>
         </div>
       </div>

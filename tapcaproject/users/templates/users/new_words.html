@@ -1,63 +1,45 @@
 
-  <div class="mb-9">
-    <div id="projectSummary" data-list='{"valueNames":["projectName","assignees","start","deadline","task","projectprogress","status","action"],"page":6,"pagination":true}'>
-      <div class="row g-3 justify-content-between align-items-end mb-4">
-        <div class="col-12 col-sm-auto">
-          <div class="d-flex align-items-center">
-            <div class="search-box me-3">
-              <form class="position-relative">
-                <input class="form-control search-input search" type="search" placeholder="Поиск" aria-label="Search" />
-                <span class="fas fa-search search-box-icon"></span>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="table-responsive scrollbar">
-        <table class="table fs-9 mb-0 border-top border-translucent">
-          <thead>
-            <tr>
-              <th class="white-space-nowrap align-middle ps-0">КАРТОЧКА</th>
-              <th class="align-middle ps-3">ПЕРЕВОД</th>
-              <th class="align-middle text-end">КАТЕГОРИЯ</th>
+  {% for card in cards %}
+  {% if forloop.last and page_obj.has_next %}
+        <tr
+            hx-get="{% url 'users:new_words' %}?page={{ page_obj.next_page_number}}"
+            hx-trigger="revealed"
+            hx-swap="afterend"
+            hx-include="#new_words_filter"
+            hx-indicator="#spinner"
+        >
+    {% else %}
+        <tr>
+    {% endif %}
 
-            </tr>
-          </thead>
-          <tbody class="list" id="project-list-table-body">
-            {% for card in cards %}
-              <tr class="position-static">
-                <td class="align-middle white-space-nowrap ps-0 py-3">
-                  <a class="fw-bold fs-8" href="#">
-                    {{ card.word }} <span class="mb-0 fs-9 text-body">({{ card.part_of_speech }})</span>
-                  </a>
-                </td>
-              <td class="align-middle white-space-nowrap deadline ps-3 py-4">
-                  <p class="mb-0 fs-9 text-body">{{ card.translation }}</p>
-                </td>
-                <td class="align-middle white-space-nowrap text-end statuses">
-                  {% for tag in card.tag.all %}
-                    {% if tag.color == 'GREEN' %}
-                      <span class="badge badge-phoenix badge-phoenix-success fs-10">{{ tag.name }}</span>
-                    {% endif %}
-                    {% if tag.color == 'RED' %}
-                      <span class="badge badge-phoenix badge-phoenix-danger fs-10">{{ tag.name }}</span>
-                    {% endif %}
-                    {% if tag.color == 'ORANGE' %}
-                      <span class="badge badge-phoenix badge-phoenix-warning fs-10">{{ tag.name }}</span>
-                    {% endif %}
-                    {% if tag.color == 'BLUE' %}
-                      <span class="badge badge-phoenix badge-phoenix-info fs-10">{{ tag.name }}</span>
-                    {% endif %}
-                    {% if tag.color == 'GRAY' %}
-                      <span class="badge badge-phoenix badge-phoenix-secondary fs-10">{{ tag.name }}</span>
-                    {% endif %}
-                  {% endfor %}
-                </td>
+    <tr class="position-static">
+      <td class="align-middle white-space-nowrap ps-0 py-3">
+        <a class="fw-bold fs-8" href="{{ card.get_absolute_url }}" target="_blank">
+          {{ card.word }} <span class="mb-0 fs-9 text-body">({{ card.part_of_speech }})</span>
+        </a>
+           {% for tag in card.tag.all %}
+            {% if tag.color == 'GREEN' %}
+              <span class="badge badge-phoenix badge-phoenix-success fs-10">{{ tag.name }}</span>
+            {% endif %}
+            {% if tag.color == 'RED' %}
+              <span class="badge badge-phoenix badge-phoenix-danger fs-10">{{ tag.name }}</span>
+            {% endif %}
+            {% if tag.color == 'ORANGE' %}
+              <span class="badge badge-phoenix badge-phoenix-warning fs-10">{{ tag.name }}</span>
+            {% endif %}
+            {% if tag.color == 'BLUE' %}
+              <span class="badge badge-phoenix badge-phoenix-info fs-10">{{ tag.name }}</span>
+            {% endif %}
+            {% if tag.color == 'GRAY' %}
+              <span class="badge badge-phoenix badge-phoenix-secondary fs-10">{{ tag.name }}</span>
+            {% endif %}
+          {% endfor %}
 
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+      </td>
+    <td class="align-middle white-space-nowrap deadline ps-3 py-4">
+        <p class="mb-0 fs-9 text-body">{{ card.translation }} {% if card.translation_secondary %}({{ card.translation_secondary }}){% endif %}</p>
+      </td>
+
+    </tr>
+  {% endfor %}
+

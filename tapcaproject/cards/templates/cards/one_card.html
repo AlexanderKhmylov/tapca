@@ -1,6 +1,11 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<div class="col-12 col-lg-3">
+{% block content %}
+  <div class="row g-5">
+
+
+  <div class="col-12 col-lg-3">
   <div class="mb-6">
     {#      Advertisement #}
   </div>
@@ -36,16 +41,6 @@
             </div>
           </div>
 
-          <!-- Middle part -->
-          <div class="accordion" id="accordionExample">
-            <div class="accordion-item border-top">
-              <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button collapsed fs-7" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                  Перевод
-                </button>
-              </h2>
-              <div class="accordion-collapse collapse" id="collapseOne" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
-                <div class="accordion-body pt-0">
 
                   <!-- ПЕРЕВОД -->
                   <div class="alert alert-outline-primary text-center justify-content-between align-items-end pb-2" role="alert">
@@ -82,55 +77,9 @@
                     {% endfor %}
                   {% endif %}
 
-                  <!-- КНОПКИ -->
-                  <div class="d-flex flex-between-center border-top border-dashed pt-3">
 
-                    <button
-                        class="btn btn-success w-100 mx-1 px-2 fs-8"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseOne"
-                        aria-expanded="false"
-                        aria-controls="collapseOne"
-                        hx-get="{% url 'cards:save_card_to_repeat' card.pk %}?frequency=10"
-                        hx-target="#card_with_adv"
-                        hx-swap="innerHTML"
-                    >
-                      Знаю
-                    </button>
 
-                    <button
-                        class="btn btn-warning w-100 mx-1 px-2 fs-8"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseOne"
-                        aria-expanded="false"
-                        aria-controls="collapseOne"
-                        hx-get="{% url 'cards:save_card_to_repeat' card.pk %}?frequency=50"
-                        hx-target="#card_with_adv"
-                        hx-swap="innerHTML"
-                    >
-                      Повторять
-                    </button>
 
-                    <button
-                        class="btn btn-info w-100 mx-1 px-2 fs-8"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseOne"
-                        aria-expanded="false"
-                        aria-controls="collapseOne"
-                        hx-get="{% url 'cards:save_card_to_repeat' card.pk %}?frequency=100"
-                        hx-target="#card_with_adv"
-                        hx-swap="innerHTML"
-                    >
-                      Учить
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -142,10 +91,10 @@
     {#      Advertisement #}
   </div>
 </div>
+</div>
 
-            <!-- Bottom part -->
-{#              <div class="d-flex flex-between-center border-top border-dashed pt-3">#}
-{#                <button class="btn btn-success w-100 mx-1 px-2 fs-8" type="button">Знаю</button>#}
-{#                <button class="btn btn-warning w-100 mx-1 px-2 fs-8" type="button">Повторять</button>#}
-{#                <button class="btn btn-info w-100 mx-1 px-2 fs-8" type="button">Учить</button>#}
-{#              </div>#}
+{% endblock %}
+
+
+
+
