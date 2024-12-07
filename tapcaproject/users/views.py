@@ -115,12 +115,9 @@ class MyRepeatedWordsView(LoginRequiredMixin, FilterView):
     paginate_by = WORD_PAGINATOR
 
     def get_queryset(self):
-        cards = get_user_repeated_cards(self.request.user)
+        cards = get_user_repeated_cards(self.request.user).order_by('-frequency')
         return cards
 
-# def my_repeated_word(request):
-#     cards = get_user_repeated_cards(request.user)
-#     return render(request, 'users/repeated_words.html', {'cards': cards})
 
 
 def reset_progress(request, user_card_id):
@@ -136,7 +133,6 @@ def delete_user_card(request, user_card_id):
     user_card = get_object_or_404(UserCard, pk=user_card_id)
     user_card.delete()
     response = MyRepeatedWordsView.as_view()(request)
-    # response = my_repeated_word(request)
     response.headers['HX-Trigger'] = 'update_statistics'
     return response
 

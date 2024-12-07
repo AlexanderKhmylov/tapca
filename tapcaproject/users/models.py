@@ -59,6 +59,6 @@ class UserCard(models.Model):
 
     class Meta:
         unique_together = ('user', 'card')
-        ordering = ('user', '-frequency')
+        ordering = ('-frequency',)
         verbose_name = 'слово пользователя'
         verbose_name_plural = 'Слова пользователя'

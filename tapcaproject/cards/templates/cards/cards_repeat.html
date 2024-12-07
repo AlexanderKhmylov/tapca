@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <div
+      id="card_with_adv"
+      class="row g-5"
+      hx-get="{% url 'cards:card_to_repeat' %}"
+      hx-target="#card_with_adv"
+      hx-swap="innerHTML"
+      hx-trigger="load"
+  >
+  <!-- Card and Adv are loaded here -->
+  </div>
+{% endblock %}
