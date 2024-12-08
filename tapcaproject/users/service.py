@@ -1,4 +1,9 @@
+import os
+import json
+
+from dotenv import load_dotenv
 import pyotp
+import requests
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.core.mail import EmailMultiAlternatives
@@ -6,6 +11,10 @@ from django.template.loader import render_to_string
 
 from .models import OTP
 from .config import OTP_DIGITS, OTP_VALID_INTERVAL_SEC
+
+
+load_dotenv()
+SMARTCAPTCHA_SERVER_KEY = os.getenv('SMARTCAPTCHA_SERVER_KEY')
 
 
 def create_otp(user):
@@ -60,3 +69,29 @@ def verify_otp_code(user, code):
         interval=OTP_VALID_INTERVAL_SEC
     )
     return otp.verify(code, valid_window=1)
+
+
+def check_captcha(token, user_ip):
+    resp = requests.post(
+       "https://smartcaptcha.yandexcloud.net/validate",
+       data={
+          "secret": SMARTCAPTCHA_SERVER_KEY,
+          "token": token,
+          "ip": user_ip
+       },
+       timeout=1
+    )
+    server_output = resp.content.decode()
+    if resp.status_code != 200:
+       # print(f"Allow access due to an error: code={resp.status_code}; message={server_output}", file=sys.stderr)
+       return True
+    return json.loads(server_output)["status"] == "ok"
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip

@@ -1,0 +1,38 @@
+{% extends "base_login.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block head_links %}
+  <script src="https://smartcaptcha.yandexcloud.net/captcha.js" defer></script>
+{% endblock %}
+
+{% block content %}
+
+  <div class="row flex-center min-vh-100 py-5">
+    <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3"><a class="d-flex flex-center text-decoration-none mb-4" href="{% url 'cards:cards_main' %}">
+        <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block">
+          <img src="{% static 'assets/img/icons/logo.png' %}" alt="phoenix" width="58" />
+        </div>
+      </a>
+      <div class="text-center mb-7">
+        <h3 class="text-body-highlight">Вход | Регистрация</h3>
+      </div>
+      {% if error_message %}
+        <div class="alert alert-outline-danger" role="alert">{{ error_message }}</div>
+      {% endif %}
+      <form method="post">
+        {% csrf_token %}
+        <div
+          id="captcha-container"
+          class="smart-captcha"
+          data-sitekey="{{ SMARTCAPTCHA_CLIENT_KEY }}"
+      >
+      </div>
+        <input type="submit" class="btn btn-primary my-4" value="Задание выполнено">
+      </form>
+
+      <div class="text-center"><a class="fs-9 fw-bold" href="{% url 'cards:cards_main' %}">На главную</a></div>
+    </div>
+  </div>
+
+{% endblock %}

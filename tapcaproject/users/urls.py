@@ -6,7 +6,8 @@ from . import views
 app_name = 'users'
 
 urlpatterns = [
-    path('login/', views.send_otp, name='send_otp'),
+    path('login_captcha/', views.login_captcha, name='login_captcha'),
+    path('login_email/', views.send_otp, name='send_otp'),
     path('login_verify/', views.verify_otp, name='verify_otp'),
     path(
         'logout/',

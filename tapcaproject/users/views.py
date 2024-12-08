@@ -1,3 +1,6 @@
+import os
+
+from dotenv import load_dotenv
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
@@ -5,6 +8,7 @@ from django.contrib.auth import login
 from django.shortcuts import get_object_or_404, reverse
 from django.views.generic import UpdateView, TemplateView, ListView, FormView
 from django_filters.views import FilterView
+from django.core.exceptions import PermissionDenied
 
 from .forms import OtpSendForm, OtpVerifyForm, UserProfileForm, UserSettingForm, UserSetForm
 from .mixins import OnlyMyDataMixin
@@ -14,8 +18,26 @@ from cards.models import Card, Tag
 from cards.service import get_user_cards, get_user_repeated_cards
 from cards.filters import CardFilter, UserCardFilter
 from .config import WORD_PAGINATOR
+from .service import check_captcha, get_client_ip
 
+load_dotenv()
+SMARTCAPTCHA_CLIENT_KEY = os.getenv('SMARTCAPTCHA_CLIENT_KEY')
 User = get_user_model()
+
+def login_captcha(request):
+    error_message = ''
+    if request.method == 'POST':
+        token = request.POST.get('smart-token', None)
+        user_ip = get_client_ip(request)
+        if token and user_ip:
+            url = f"{reverse('users:send_otp')}?token={token}"
+            return redirect(url)
+        error_message = 'Ошибка верификации пользователя, попробуйте повторить попытку'
+
+    return render(request, 'users/login.html', {
+        'error_message': error_message,
+        'SMARTCAPTCHA_CLIENT_KEY': SMARTCAPTCHA_CLIENT_KEY,
+    })
 
 
 def send_otp(request):
@@ -29,6 +51,10 @@ def send_otp(request):
             url = f"{reverse('users:verify_otp')}?email={email}"
             return redirect(url)
     else:
+        token = request.GET.get('token', None)
+        user_ip = get_client_ip(request)
+        if not check_captcha(token, user_ip):
+            raise PermissionDenied()
         form = OtpSendForm()
     return render(
         request, 'users/send_otp.html', {'form': form})
