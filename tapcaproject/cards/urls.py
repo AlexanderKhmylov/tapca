@@ -6,6 +6,7 @@ app_name = 'cards'
 
 urlpatterns = [
     path('card/<slug:slug>', views.CardDetailView.as_view(), name='card_detail'),
+    path('card_search', views.SearchWordsView.as_view(), name='card_search'),
 
     path('', views.CardsView.as_view(), name='cards_main'),
     path('card_random/', views.CardRandomView.as_view(), name='card_random'),

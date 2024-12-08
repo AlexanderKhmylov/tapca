@@ -1,0 +1,27 @@
+{% for card in cards %}
+  <a class="dropdown-item py-2 d-flex align-items-center" href="{{ card.get_absolute_url }}">
+    <div class="flex-1">
+      <h6 class="mb-0 text-body-highlight title">{{ card.word }}
+        {% for tag in card.tag.all %}
+                {% if tag.color == 'GREEN' %}
+                  <span class="badge badge-phoenix badge-phoenix-success fs-10">{{ tag.name }}</span>
+                {% endif %}
+                {% if tag.color == 'RED' %}
+                  <span class="badge badge-phoenix badge-phoenix-danger fs-10">{{ tag.name }}</span>
+                {% endif %}
+                {% if tag.color == 'ORANGE' %}
+                  <span class="badge badge-phoenix badge-phoenix-warning fs-10">{{ tag.name }}</span>
+                {% endif %}
+                {% if tag.color == 'BLUE' %}
+                  <span class="badge badge-phoenix badge-phoenix-info fs-10">{{ tag.name }}</span>
+                {% endif %}
+                {% if tag.color == 'GRAY' %}
+                  <span class="badge badge-phoenix badge-phoenix-secondary fs-10">{{ tag.name }}</span>
+                {% endif %}
+              {% endfor %}
+      </h6>
+
+      <p class="fs-10 mb-0 d-flex text-body-tertiary"><span class="fw-medium text-body-tertiary text-opactity-85">{{ card.translation }}</span></p>
+    </div>
+  </a>
+{% endfor %}

@@ -14,6 +14,39 @@
       </a>
     </div>
 
+      <div class="search-box navbar-top-search-box d-none d-lg-block" style="width:25rem;">
+        <form
+            autocomplete="off"
+            class="position-relative"
+            data-bs-toggle="search"
+            data-bs-display="static"
+            hx-get="{% url 'cards:card_search' %}"
+            hx-target = "#search_results"
+            hx-trigger = "input changed delay:300ms from:#id_search"
+            hx-swap = "innerHTML"
+        >
+          <input type="search" name="word" aria-label="Search" placeholder="Поиск" class="form-control search-input search" id="id_search">
+{#          <input id="id_search" class="form-control search-input fuzzy-search rounded-pill form-control-sm" type="search" placeholder="Поиск..." aria-label="Search"/>#}
+{#          <span class="fas fa-search search-box-icon"></span>#}
+        </form>
+
+        <div class="btn-close position-absolute end-0 top-50 translate-middle cursor-pointer shadow-none" data-bs-dismiss="search">
+          <button class="btn btn-link p-0" aria-label="Close"></button>
+        </div>
+        <div class="dropdown-menu border start-0 py-0 overflow-hidden w-100">
+          <div class="scrollbar-overlay" style="max-height: 30rem;">
+            <div class="list pb-3">
+              <div id="search_results" class="py-2">
+
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     <ul class="navbar-nav navbar-nav-icons flex-row">
       <li class="nav-item">
         <span class="fas"></span>

@@ -4,12 +4,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView, DetailView
+from django_filters.views import FilterView
 
 from .models import Card
 from .service import get_user_cards
 from users.models import UserCard
 from cards.service import get_user_cards, get_user_repeated_cards
 from .forms import CheckCardForm
+from .cofig import SEARCH_LIMIT
+from .filters import CardFilter
 
 # CARDS VIEW MODE ============================================================
 class CardsView(TemplateView):
@@ -75,7 +78,6 @@ def show_card_to_repeat(request):
     if user_cards:
         frequency = user_cards.values_list('frequency', flat=True)
         user_card = random.choices(user_cards, weights=frequency, k=1)[0]
-        # user_cards = user_cards.order_by('?')[0]
         return render(
             request, 'cards/card_to_repeat.html', context={
                 'user_card': user_card,
@@ -114,3 +116,11 @@ def check_card(request, card_id):
         if card.word == word:
             return render(request, 'cards/results_ok.html')
     return render(request, 'cards/results_ng.html')
+
+
+class SearchWordsView(LoginRequiredMixin, FilterView):
+    model = Card
+    template_name = 'cards/search_card.html'
+    context_object_name = 'cards'
+    filterset_class = CardFilter
+    paginate_by = SEARCH_LIMIT
