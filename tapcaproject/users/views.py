@@ -18,7 +18,7 @@ from cards.models import Card, Tag
 from cards.service import get_user_cards, get_user_repeated_cards
 from cards.filters import CardFilter, UserCardFilter
 from .config import WORD_PAGINATOR
-from .service import check_captcha, get_client_ip
+from .service import get_client_ip
 
 load_dotenv()
 SMARTCAPTCHA_CLIENT_KEY = os.getenv('SMARTCAPTCHA_CLIENT_KEY')
@@ -28,8 +28,7 @@ def login_captcha(request):
     error_message = ''
     if request.method == 'POST':
         token = request.POST.get('smart-token', None)
-        user_ip = get_client_ip(request)
-        if token and user_ip:
+        if token:
             url = f"{reverse('users:send_otp')}?token={token}"
             return redirect(url)
         error_message = 'Ошибка верификации пользователя, попробуйте повторить попытку'
@@ -51,11 +50,12 @@ def send_otp(request):
             url = f"{reverse('users:verify_otp')}?email={email}"
             return redirect(url)
     else:
-        token = request.GET.get('token', None)
+        token = request.GET.get('token')
         user_ip = get_client_ip(request)
-        if not check_captcha(token, user_ip):
-            raise PermissionDenied()
-        form = OtpSendForm()
+        form = OtpSendForm(initial={
+            'token': token,
+            'ip': user_ip,
+        })
     return render(
         request, 'users/send_otp.html', {'form': form})
 

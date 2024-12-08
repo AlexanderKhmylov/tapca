@@ -118,7 +118,7 @@ def check_card(request, card_id):
     return render(request, 'cards/results_ng.html')
 
 
-class SearchWordsView(LoginRequiredMixin, FilterView):
+class SearchWordsView(FilterView):
     model = Card
     template_name = 'cards/search_card.html'
     context_object_name = 'cards'

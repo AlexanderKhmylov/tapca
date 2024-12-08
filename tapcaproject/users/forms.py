@@ -7,13 +7,15 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from dotenv import load_dotenv
 
-from .service import verify_otp_code
+from .service import verify_otp_code, check_captcha
 
 load_dotenv()
 User = get_user_model()
 
 
 class OtpSendForm(forms.Form):
+    token = forms.CharField(widget=forms.HiddenInput())
+    ip = forms.CharField(widget=forms.HiddenInput())
     email = forms.EmailField()
 
     def clean_email(self):
@@ -25,6 +27,15 @@ class OtpSendForm(forms.Form):
                 password=os.getenv('DEFAULT_USER_PASSWORD')
             )
         return email
+
+    def clean(self):
+        cleaned_data = super().clean()
+        token = cleaned_data.get('token')
+        user_ip = cleaned_data.get('ip')
+        if not check_captcha(token, user_ip):
+            raise forms.ValidationError(
+                ('Вы не прошли валидацию пользователя!'
+                 'Выполните вход повторно!'))
 
 
 class OtpVerifyForm(forms.Form):
