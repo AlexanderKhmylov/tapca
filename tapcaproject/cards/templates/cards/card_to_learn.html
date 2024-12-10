@@ -35,6 +35,11 @@
               {% endfor %}
             </div>
           </div>
+          {% if card.transcription %}
+           <div class="mb-5">
+             <h3 class="text-body-secondary fs-7">[ {{ card.transcription }} ]</h3>
+           </div>
+         {% endif %}
 
           <!-- Middle part -->
           <div class="accordion" id="accordionExample">
@@ -92,7 +97,7 @@
                         data-bs-target="#collapseOne"
                         aria-expanded="false"
                         aria-controls="collapseOne"
-                        hx-get="{% url 'cards:save_card_to_repeat' card.pk %}?frequency=10"
+                        hx-get="{% url 'cards:save_card_to_repeat' card.pk %}?frequency={{ MIN_FREQ }}"
                         hx-target="#card_with_adv"
                         hx-swap="innerHTML"
                     >
@@ -106,7 +111,7 @@
                         data-bs-target="#collapseOne"
                         aria-expanded="false"
                         aria-controls="collapseOne"
-                        hx-get="{% url 'cards:save_card_to_repeat' card.pk %}?frequency=50"
+                        hx-get="{% url 'cards:save_card_to_repeat' card.pk %}?frequency={{ MID_FREQ }}"
                         hx-target="#card_with_adv"
                         hx-swap="innerHTML"
                     >
@@ -120,7 +125,7 @@
                         data-bs-target="#collapseOne"
                         aria-expanded="false"
                         aria-controls="collapseOne"
-                        hx-get="{% url 'cards:save_card_to_repeat' card.pk %}?frequency=100"
+                        hx-get="{% url 'cards:save_card_to_repeat' card.pk %}?frequency={{ MAX_FREQ }}"
                         hx-target="#card_with_adv"
                         hx-swap="innerHTML"
                     >
@@ -142,10 +147,3 @@
     {#      Advertisement #}
   </div>
 </div>
-
-            <!-- Bottom part -->
-{#              <div class="d-flex flex-between-center border-top border-dashed pt-3">#}
-{#                <button class="btn btn-success w-100 mx-1 px-2 fs-8" type="button">Знаю</button>#}
-{#                <button class="btn btn-warning w-100 mx-1 px-2 fs-8" type="button">Повторять</button>#}
-{#                <button class="btn btn-info w-100 mx-1 px-2 fs-8" type="button">Учить</button>#}
-{#              </div>#}

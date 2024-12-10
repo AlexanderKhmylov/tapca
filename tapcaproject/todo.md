@@ -1,6 +1,4 @@
 # TODO
-- ADD CAPCHA
-- ADD SEARCH
 
 1. Add About 
 2. Add Feedback

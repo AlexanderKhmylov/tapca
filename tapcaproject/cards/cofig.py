@@ -49,3 +49,8 @@ RUS_MAX_LENGTH = 256
 
 # Search
 SEARCH_LIMIT = 10
+
+# Max frequency to repeat
+MAX_FREQ = 100
+MID_FREQ = 50
+MIN_FREQ = 10

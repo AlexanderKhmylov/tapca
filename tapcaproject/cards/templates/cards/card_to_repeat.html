@@ -70,7 +70,12 @@
 
                   <!-- ПЕРЕВОД -->
                   <div class="alert alert-outline-primary text-center justify-content-between align-items-end pb-2" role="alert">
-                    <h3 class="text-primary">{{ user_card.card.word }}</h3>
+                    <h3 class="text-primary">
+                      {{ user_card.card.word }}
+                      {% if user_card.card.transcription %}
+                         <span class="text-body-secondary fs-7">[ {{ user_card.card.transcription }} ]</span>
+                      {% endif %}
+                    </h3>
                     <div class="d-flex flex-row-reverse">
                       <a href="https://dictionary.cambridge.org/dictionary/english-russian/{{ user_card.card.word }}" target="_blank">
                         <img src="{% static 'assets/img/cambridge_logo.png'  %}" alt="Cambridge" width="20px">
@@ -146,10 +151,3 @@
     {#      Advertisement #}
   </div>
 </div>
-
-            <!-- Bottom part -->
-{#              <div class="d-flex flex-between-center border-top border-dashed pt-3">#}
-{#                <button class="btn btn-success w-100 mx-1 px-2 fs-8" type="button">Знаю</button>#}
-{#                <button class="btn btn-warning w-100 mx-1 px-2 fs-8" type="button">Повторять</button>#}
-{#                <button class="btn btn-info w-100 mx-1 px-2 fs-8" type="button">Учить</button>#}
-{#              </div>#}

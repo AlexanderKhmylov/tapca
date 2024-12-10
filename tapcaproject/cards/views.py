@@ -6,32 +6,25 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView, DetailView
 from django_filters.views import FilterView
 
-from .models import Card
-from .service import get_user_cards
 from users.models import UserCard
-from cards.service import get_user_cards, get_user_repeated_cards
+from .models import Card
+from .service import get_new_cards_of_user, get_user_cards, get_random_card
 from .forms import CheckCardForm
-from .cofig import SEARCH_LIMIT
+from .cofig import SEARCH_LIMIT, MAX_FREQ, MID_FREQ, MIN_FREQ
 from .filters import CardFilter
 
-# CARDS VIEW MODE ============================================================
-class CardsView(TemplateView):
-    template_name = 'cards/cards_main.html'
+
+# CARDS RANDOM VIEW ===========================================================
+class CardsRandomMainView(TemplateView):
+    template_name = 'cards/cards_random.html'
 
 
 class CardRandomView(TemplateView):
-    template_name = 'cards/card_random.html'
+    template_name = 'cards/card_to_random.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        card = (
-            Card.objects.all()
-            .filter(is_published=True)
-            .prefetch_related('forms').order_by('?')[0]
-        )
-        context.update({
-            'card': card,
-        })
+        context.update({'card': get_random_card()})
         return context
 
 
@@ -42,29 +35,28 @@ class CardsLearnView(LoginRequiredMixin, TemplateView):
 
 @login_required
 def show_card_to_learn(request):
-    cards = get_user_cards(request.user)
+    cards = get_new_cards_of_user(request.user)
     if cards:
         card = cards.order_by('?')[0]
         return render(
-            request, 'cards/card_to_learn.html', context={'card': card})
+            request, 'cards/card_to_learn.html', context={
+                'card': card,
+                'MAX_FREQ': MAX_FREQ,
+                'MID_FREQ': MID_FREQ,
+                'MIN_FREQ': MIN_FREQ,
+            })
 
     return render(request, 'cards/no_cards.html', {})
 
 
 @login_required
 def save_card_to_repeat(request, card_id):
-    frequency = request.GET.get('frequency')
+    frequency = request.GET.get('frequency', MAX_FREQ)
     card = get_object_or_404(Card, pk=card_id)
     if not UserCard.objects.filter(card=card, user=request.user).exists():
         UserCard.objects.create(
             card=card, user=request.user, frequency=frequency)
     return show_card_to_learn(request)
-
-
-class CardDetailView(DetailView):
-    model = Card
-    context_object_name = 'card'
-    template_name = 'cards/one_card.html'
 
 
 # CARDS REPEAT VIEW ===========================================================
@@ -73,11 +65,11 @@ class CardsRepeatView(LoginRequiredMixin, TemplateView):
 
 @login_required
 def show_card_to_repeat(request):
-    user_cards = get_user_repeated_cards(request.user)
+    user_cards = get_user_cards(request.user)
     check_form = CheckCardForm()
     if user_cards:
-        frequency = user_cards.values_list('frequency', flat=True)
-        user_card = random.choices(user_cards, weights=frequency, k=1)[0]
+        frequencies = user_cards.values_list('frequency', flat=True)
+        user_card = random.choices(user_cards, weights=frequencies, k=1)[0]
         return render(
             request, 'cards/card_to_repeat.html', context={
                 'user_card': user_card,
@@ -112,10 +104,17 @@ def check_card(request, card_id):
         form = CheckCardForm(request.GET)
         if form.is_valid():
             word = form.cleaned_data['word']
-        card = get_object_or_404(Card, pk=card_id)
-        if card.word == word:
-            return render(request, 'cards/results_ok.html')
+            card = get_object_or_404(Card, pk=card_id)
+            if card.word == word:
+                return render(request, 'cards/results_ok.html')
     return render(request, 'cards/results_ng.html')
+
+
+# CARDS DETAIL & SEARCH =======================================================
+class CardDetailView(DetailView):
+    model = Card
+    context_object_name = 'card'
+    template_name = 'cards/one_card.html'
 
 
 class SearchWordsView(FilterView):

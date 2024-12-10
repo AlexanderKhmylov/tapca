@@ -5,8 +5,6 @@ from .models import Card
 from users.models import UserCard
 
 
-
-
 class CardFilter(django_filters.FilterSet):
     word = django_filters.CharFilter(method='filter_word', label='Поиск')
 

@@ -35,6 +35,11 @@
               {% endfor %}
             </div>
           </div>
+          {% if card.transcription %}
+           <div class="mb-5">
+             <h3 class="text-body-secondary fs-7">[ {{ card.transcription }} ]</h3>
+           </div>
+         {% endif %}
 
           <!-- Middle part -->
           <div class="accordion" id="accordionExample">
@@ -113,10 +118,3 @@
     {#      Advertisement #}
   </div>
 </div>
-
-            <!-- Bottom part -->
-{#              <div class="d-flex flex-between-center border-top border-dashed pt-3">#}
-{#                <button class="btn btn-success w-100 mx-1 px-2 fs-8" type="button">Знаю</button>#}
-{#                <button class="btn btn-warning w-100 mx-1 px-2 fs-8" type="button">Повторять</button>#}
-{#                <button class="btn btn-info w-100 mx-1 px-2 fs-8" type="button">Учить</button>#}
-{#              </div>#}

@@ -15,7 +15,7 @@ from .mixins import OnlyMyDataMixin
 from .models import UserCard
 from .service import create_otp, send_otp_email
 from cards.models import Card, Tag
-from cards.service import get_user_cards, get_user_repeated_cards
+from cards.service import get_new_cards_of_user, get_user_cards
 from cards.filters import CardFilter, UserCardFilter
 from .config import WORD_PAGINATOR
 from .service import get_client_ip
@@ -106,13 +106,13 @@ class UserStatisticView(LoginRequiredMixin, OnlyMyDataMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         new_words_filter = CardFilter(
             self.request.GET,
-            queryset=get_user_cards(self.request.user)
+            queryset=get_new_cards_of_user(self.request.user)
         )
         context['new_words_filter'] = new_words_filter
 
         repeated_words_filter = UserCardFilter(
             self.request.GET,
-            queryset=get_user_repeated_cards(self.request.user)
+            queryset=get_user_cards(self.request.user)
         )
         context['repeated_words_filter'] = repeated_words_filter
         return context
@@ -129,7 +129,7 @@ class MyNewWordsView(LoginRequiredMixin, FilterView):
     paginate_by = WORD_PAGINATOR
 
     def get_queryset(self):
-        cards = get_user_cards(self.request.user)
+        cards = get_new_cards_of_user(self.request.user)
         return cards
 
 
@@ -141,7 +141,7 @@ class MyRepeatedWordsView(LoginRequiredMixin, FilterView):
     paginate_by = WORD_PAGINATOR
 
     def get_queryset(self):
-        cards = get_user_repeated_cards(self.request.user).order_by('-frequency')
+        cards = get_user_cards(self.request.user).order_by('-frequency')
         return cards
 
 
@@ -164,7 +164,7 @@ def delete_user_card(request, user_card_id):
 
 
 def get_statistic(request):
-    new_words = get_user_cards(request.user).count()
-    repeated_words = get_user_repeated_cards(request.user).count()
-    learned_words = get_user_repeated_cards(request.user).filter(frequency=10).count()
+    new_words = get_new_cards_of_user(request.user).count()
+    repeated_words = get_user_cards(request.user).count()
+    learned_words = get_user_cards(request.user).filter(frequency=10).count()
     return render(request, 'users/statistics_words.html', context={'new_words': new_words, 'repeated_words': repeated_words, 'learned_words': learned_words})
