@@ -9,5 +9,4 @@ urlpatterns = [
     path('404/', error_404, name='error_404'),
     path('500/', error_500, name='error_500'),
     path('403/', error_403, name='error_403'),
-
 ]

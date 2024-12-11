@@ -7,6 +7,7 @@ class CheckCardForm(forms.Form):
             'class':'form-control fs-7',
             'placeholder':'Введите перевод...',
             'autofocus': True,
+            'onkeydown': "if (event.keyCode === 13) event.preventDefault();"
         }),
         label=''
     )

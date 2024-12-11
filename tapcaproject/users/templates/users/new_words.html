@@ -1,13 +1,13 @@
 
   {% for card in cards %}
   {% if forloop.last and page_obj.has_next %}
-        <tr
-            hx-get="{% url 'users:new_words' %}?page={{ page_obj.next_page_number}}"
-            hx-trigger="revealed"
-            hx-swap="afterend"
-            hx-include="#new_words_filter"
-            hx-indicator="#spinner"
-        >
+    <tr
+        hx-get="{% url 'users:new_words' %}?page={{ page_obj.next_page_number}}"
+        hx-trigger="revealed"
+        hx-swap="afterend"
+        hx-include="#new_words_filter"
+        hx-indicator="#spinner"
+    >
     {% else %}
         <tr>
     {% endif %}

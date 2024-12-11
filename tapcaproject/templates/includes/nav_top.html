@@ -25,9 +25,7 @@
             hx-trigger = "input changed delay:300ms from:#id_search"
             hx-swap = "innerHTML"
         >
-          <input type="search" name="word" aria-label="Search" placeholder="Поиск" class="form-control search-input search" id="id_search">
-{#          <input id="id_search" class="form-control search-input fuzzy-search rounded-pill form-control-sm" type="search" placeholder="Поиск..." aria-label="Search"/>#}
-{#          <span class="fas fa-search search-box-icon"></span>#}
+          <input type="search" name="word" aria-label="Search" placeholder="Поиск" class="form-control search-input search" id="id_search" onkeydown="if (event.keyCode === 13) event.preventDefault();">
         </form>
 
         <div class="btn-close position-absolute end-0 top-50 translate-middle cursor-pointer shadow-none" data-bs-dismiss="search">
@@ -38,19 +36,18 @@
             <div class="list pb-3">
               <div id="search_results" class="py-2">
 
-
-
-
               </div>
             </div>
           </div>
         </div>
       </div>
 
+
     <ul class="navbar-nav navbar-nav-icons flex-row">
       <li class="nav-item">
         <span class="fas"></span>
       </li>
+
       <li class="nav-item">
         <div class="theme-control-toggle fa-icon-wait px-2">
           <input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox" data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" />
@@ -76,7 +73,7 @@
 
             <div class="overflow-auto scrollbar mt-2" style="height: 3rem;">
               <ul class="nav d-flex flex-column mb-2 pb-1">
-                <li class="nav-item"><a class="nav-link px-3 d-block" href="{% url 'users:statistics' user.pk %}"> <span class="me-2 text-body align-bottom" data-feather="settings"></span>Настройки</a></li>
+                <li class="nav-item"><a class="nav-link px-3 d-block" href="{% url 'users:settings' user.pk %}"> <span class="me-2 text-body align-bottom" data-feather="settings"></span>Настройки</a></li>
               </ul>
             </div>
             <div class="p-0 border-top border-translucent">
