@@ -8,10 +8,9 @@ handler500 = 'core.views.internal_server_error'
 handler403 = 'core.views.custom_permission_denied'
 
 urlpatterns = [
-    path('core/', include('core.urls', namespace='core')),
     path('', include('cards.urls', namespace='cards')),
+    path('core/', include('core.urls', namespace='core')),
     path('users/', include('users.urls', namespace='users')),
-
     path('admin/', admin.site.urls),
 ]
 

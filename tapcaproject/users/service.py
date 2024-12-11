@@ -4,10 +4,10 @@ import json
 from dotenv import load_dotenv
 import pyotp
 import requests
-from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.conf import settings
 
 from .models import OTP
 from .config import OTP_DIGITS, OTP_VALID_INTERVAL_SEC
@@ -15,7 +15,7 @@ from .config import OTP_DIGITS, OTP_VALID_INTERVAL_SEC
 
 load_dotenv()
 SMARTCAPTCHA_SERVER_KEY = os.getenv('SMARTCAPTCHA_SERVER_KEY')
-
+IS_PRODUCTION = settings.IS_PRODUCTION
 
 def create_otp(user):
     # Generate Secret and Code
@@ -26,12 +26,12 @@ def create_otp(user):
         interval=OTP_VALID_INTERVAL_SEC
     )
     otp_code = otp.now()
-
     # Save OTP to the database
     otp_obj, created = OTP.objects.get_or_create(user=user)
     otp_obj.otp_secret = otp_secret
     otp_obj.save()
-    print(f'{otp_code=}')
+    if not IS_PRODUCTION:
+        print(f'{otp_code=}')
     return otp_code
 
 
@@ -40,14 +40,10 @@ def send_otp_email(user, code):
         'emails/2fa.txt',
         context={'OTP': code},
     )
-
-    # Secondly, render the HTML content.
     html_content = render_to_string(
         'emails/2fa.html',
         context={'OTP': code},
     )
-
-    # Then, create a multipart email instance.
     msg = EmailMultiAlternatives(
         'Код подтверждения',
         text_content,
@@ -55,8 +51,6 @@ def send_otp_email(user, code):
         [user.email],
         headers={},
     )
-
-    # Lastly, attach the HTML content to the email instance and send.
     msg.attach_alternative(html_content, 'text/html')
     msg.send()
 

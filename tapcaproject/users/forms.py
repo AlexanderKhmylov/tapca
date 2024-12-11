@@ -68,22 +68,6 @@ class OtpVerifyForm(forms.Form):
                  ' Запросите код повторно!'))
 
 
-class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = User
-
-        fields = ('first_name', 'last_name')
-
-
-class UserSettingForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ('tags',)
-        widgets = {
-            'tags': CheckboxSelectMultiple(),
-        }
-
-
 class UserSetForm(forms.ModelForm):
     class Meta:
         model = User
