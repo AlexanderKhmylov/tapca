@@ -162,7 +162,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.TapcaUser'
 LOGIN_REDIRECT_URL = 'cards:cards_main'
-LOGIN_URL = 'user:send_otp'
+LOGIN_URL = 'users:login_captcha'
 
 if IS_PRODUCTION:
     DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')

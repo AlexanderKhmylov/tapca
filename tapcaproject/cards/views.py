@@ -123,3 +123,6 @@ class SearchWordsView(FilterView):
     context_object_name = 'cards'
     filterset_class = CardFilter
     paginate_by = SEARCH_LIMIT
+
+    def get_queryset(self):
+        return super().get_queryset().filter(is_published=True)

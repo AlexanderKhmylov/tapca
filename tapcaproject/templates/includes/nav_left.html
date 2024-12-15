@@ -24,7 +24,7 @@
               {% if user.is_authenticated %}
                 <a class="nav-link label-1" href="{% url 'cards:cards_learn' %}" role="button" data-bs-toggle="" aria-expanded="false">
               {% else %}
-                <a class="nav-link label-1" href="{% url 'users:send_otp' %}" role="button" data-bs-toggle="" aria-expanded="false">
+                <a class="nav-link label-1" href="{% url 'users:login_captcha' %}" role="button" data-bs-toggle="" aria-expanded="false">
               {% endif %}
                 <div class="d-flex align-items-center">
                   <span class="nav-link-icon">
@@ -40,7 +40,7 @@
             {% if user.is_authenticated %}
               <a class="nav-link label-1" href="{% url 'cards:cards_repeat' %}" role="button" data-bs-toggle="" aria-expanded="false">
             {% else %}
-              <a class="nav-link label-1" href="{% url 'users:send_otp' %}" role="button" data-bs-toggle="" aria-expanded="false">
+              <a class="nav-link label-1" href="{% url 'users:login_captcha' %}" role="button" data-bs-toggle="" aria-expanded="false">
             {% endif %}
               <div class="d-flex align-items-center">
                 <span class="nav-link-icon">
